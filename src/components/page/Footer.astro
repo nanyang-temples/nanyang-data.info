@@ -1,0 +1,17 @@
+---
+import Container from "@components/ui/Container.astro";
+---
+
+<footer>
+  <Container>
+    <slot name="logo" />
+  </Container>
+</footer>
+
+<style>
+  footer {
+    height: 4rem;
+    background-color: var(--theme-surface-1);
+    width: 100vw;
+  }
+</style>

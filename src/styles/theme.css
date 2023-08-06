@@ -1,0 +1,33 @@
+:root {
+  /* Theme Colors */
+  --theme-primary: darkgoldenrod;
+  --theme-primary-hover: goldenrod;
+  --theme-on-primary: hsl(0, 0%, 100%);
+
+  --theme-bg: #eeeff1;
+  --theme-on-bg: #272f27;
+
+  --theme-surface-1: #e6e4e0;
+  --theme-on-surface-1: #272f27;
+
+  --theme-surface-2: #c3d9c4;
+  --theme-on-surface-2: #000;
+
+  /* Theme Shapes */
+  --theme-shape-radius: 0.5rem;
+  --theme-button-border-radius: 0.5rem;
+
+  /* Theme Transition */
+  --theme-transition: 0.2s ease-in-out;
+
+  /* Theme Layout */
+  --section-margin: 3rem;
+  --theme-grid-gap: 1rem;
+  --container-max-width: 1440px;
+  --container-max-width-narrow: 960px;
+  --container-padding: 0 1rem;
+
+  /* Fonts */
+  --theme-font-family-serif: "Krub", Verdana, Geneva, sans-serif;
+  --theme-font-family-sans: "Krub", Verdana, Geneva, sans-serif;
+}
