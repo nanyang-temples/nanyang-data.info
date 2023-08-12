@@ -7,10 +7,19 @@ import image from "@astrojs/image";
 export default defineConfig({
   site: "https://nanyang-data.info/",
   sitemap: true,
-  integrations: [sitemap(), mdx(), image()],
+  integrations: [
+    mdx(),
+    sitemap(),
+    image({
+      serviceEntryPoint: "@astrojs/image/sharp",
+    }),
+  ],
+  build: {
+    assets: "assets",
+  },
   vite: {
     ssr: {
       external: ["svgo"],
     },
-  },  
+  },
 });
