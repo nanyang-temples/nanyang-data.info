@@ -10,7 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@fontsource/krub": "^5.0.8"
+    "@fontsource/krub": "^5.0.8",
+    "leaflet": "^1.9.4"
   },
   "devDependencies": {
     "@astrojs/image": "^0.17.3",
