@@ -20,14 +20,7 @@
   /* Theme Transition */
   --theme-transition: 0.2s ease-in-out;
 
-  /* Theme Layout */
-  --section-margin: 2rem;
-  --theme-grid-gap: 1rem;
-  --container-max-width: 1440px;
-  --container-max-width-narrow: 960px;
-  --container-padding: 0 1rem;
-
   /* Fonts */
-  --theme-font-family-serif: "Krub", Verdana, Geneva, sans-serif;
-  --theme-font-family-sans: "Krub", Verdana, Geneva, sans-serif;
+  --theme-font-family-heading: "Krub", Verdana, Geneva, sans-serif;
+  --theme-font-family-body: "Krub", Verdana, Geneva, sans-serif;
 }

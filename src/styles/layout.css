@@ -1,12 +1,20 @@
+:root {
+  --container-max-width-narrow: 960px;
+  --container-max-width: 1440px;
+  --container-padding: 0 1rem;
+  --default-section-margin: 3rem;
+  --theme-grid-gap: 1rem;
+}
+
 html,
 body {
   height: 100%;
 }
 
 body {
-  max-width: 1920px;
-  margin: 0 auto;
   background-color: var(--theme-bg);
+  margin: 0 auto;
+  max-width: 1920px;
   position: relative;
 }
 
@@ -14,7 +22,7 @@ body {
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: var(--section-margin);
+  gap: var(--default-section-margin);
   justify-content: flex-start;
   overflow: hidden;
   position: relative;
@@ -25,7 +33,7 @@ main {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  gap: var(--section-margin);
+  gap: var(--default-section-margin);
   height: 100%;
   justify-content: flex-start;
   overflow-y: auto;
