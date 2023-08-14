@@ -22,7 +22,6 @@ body {
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: var(--default-section-margin);
   justify-content: flex-start;
   overflow: hidden;
   position: relative;
@@ -38,13 +37,4 @@ main {
   justify-content: flex-start;
   overflow-y: auto;
   width: 100%;
-
-  & > section {
-    min-height: 100%;
-    width: var(--container-max-width);
-  }
-
-  & > * {
-    max-inline-size: 100%;
-  }
 }

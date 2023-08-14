@@ -12,9 +12,15 @@ import "leaflet/dist/leaflet.css";
 <style>
   #map {
     height: 100%;
+    width: 100%;
+
     & :global(svg) {
       stroke: white;
       color: var(--theme-primary);
+    }
+
+    & :global(.leaflet-control-attribution) {
+      font-size: clamp(10px, 1vw, 16px);
     }
   }
 </style>

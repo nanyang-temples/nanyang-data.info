@@ -1,18 +1,32 @@
 ---
-const { narrow } = Astro.props;
+const { narrow, noMargin, alignMiddle } = Astro.props;
 ---
 
-<div class:list={[{ narrow }]}>
+<section
+  class:list={[{ narrow, "no-margin": noMargin, "align-middle": alignMiddle }]}
+>
   <slot />
-</div>
+</section>
 
 <style>
-  div {
+  section {
     margin: 0 auto;
     max-width: var(--container-max-width);
+    min-height: 100%;
     padding: var(--container-padding);
-  }
-  .narrow {
-    max-width: var(--container-max-width-narrow);
+    width: 100%;
+
+    &:not(.no-margin) {
+      margin: var(--default-section-margin) auto;
+    }
+
+    &.narrow {
+      max-width: var(--container-max-width-narrow);
+    }
+
+    &.align-middle {
+      display: flex;
+      align-items: center;
+    }
   }
 </style>

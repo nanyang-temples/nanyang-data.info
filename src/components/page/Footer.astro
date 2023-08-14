@@ -3,15 +3,16 @@ import Container from "@components/ui/Container.astro";
 ---
 
 <footer>
-  <Container>
+  <Container noMargin alignMiddle>
     <slot name="logo" />
   </Container>
 </footer>
 
 <style>
   footer {
-    height: 4rem;
     background-color: var(--theme-surface-1);
-    width: 100vw;
+    flex: 0 0 5rem;
+    height: 5rem;
+    width: 100%;
   }
 </style>
