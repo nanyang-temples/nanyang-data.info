@@ -1,0 +1,11 @@
+---
+import Layout from "@layouts/Page.astro";
+import Container from "@components/ui/Container.astro";
+import * as content from "@content/about.md";
+---
+
+<Layout>
+  <Container>
+    <Fragment set:html={content.compiledContent()} />
+  </Container>
+</Layout>
