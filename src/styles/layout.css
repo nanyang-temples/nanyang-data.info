@@ -14,10 +14,10 @@ body {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   gap: var(--section-margin);
-  position: relative;
+  justify-content: flex-start;
   overflow: hidden;
+  position: relative;
 }
 
 main {
@@ -26,23 +26,17 @@ main {
   flex-direction: column;
   flex-grow: 1;
   gap: var(--section-margin);
+  height: 100%;
   justify-content: flex-start;
-  width: 100%;
   overflow-y: auto;
-}
+  width: 100%;
 
-main * {
-  max-inline-size: 100%;
-}
+  & > section {
+    min-height: 100%;
+    width: var(--container-max-width);
+  }
 
-/* add margin if scroll bar not visible
-   Note: leaving space for a scroll bar can result in obviously uneven margins
-   on smaller screens when there is no scroll bar.  This is potentially an issue
-   on environments without overlay scrollbars and very narrow viewports, but 
-   such environments are very uncommon and in my contrived examples behaviour
-   is entirely acceptable imo. */
-/* main {
-  margin-left: calc(100vw - 100%);
-  margin-right: 0;
-  overflow-x: hidden;
-} */
+  & > * {
+    max-inline-size: 100%;
+  }
+}
