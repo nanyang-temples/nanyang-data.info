@@ -2,11 +2,11 @@
 import { Icon } from "astro-icon";
 
 import Layout from "@layouts/Page.astro";
-
 import Button from "@components/ui/Button.astro";
 import Container from "@components/ui/Container.astro";
 
 import heroImage from "@img/nanyang-sites.400x400.png?url";
+import * as content from "@content/home-page.md";
 ---
 
 <Layout>
@@ -22,10 +22,7 @@ import heroImage from "@img/nanyang-sites.400x400.png?url";
           >
           Nanyang Sites GIS Data
         </h1>
-        <p>
-          This site makes available data on Chinese religious sites from across
-          Southeast Asia.
-        </p>
+        <Fragment set:html={content.compiledContent()} />
         <div class="hero-btns__container">
           <Button href="/explore" customIcon>
             Explore

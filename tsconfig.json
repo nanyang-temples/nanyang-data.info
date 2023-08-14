@@ -6,6 +6,7 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@config": ["src/config.js"],
+      "@content/*": ["content/*"],
       "@datasets": ["src/datasets.js"],
       "@img/*": ["src/img/*"],
       "@layouts/*": ["src/components/layouts/*"],
