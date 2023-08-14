@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "gh-deploy": "bin/gh-deploy.sh"
   },
   "dependencies": {
     "@fontsource/krub": "^5.0.8",
