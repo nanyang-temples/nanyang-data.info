@@ -9,6 +9,7 @@
       "@datasets": ["src/datasets.js"],
       "@img/*": ["src/img/*"],
       "@layouts/*": ["src/components/layouts/*"],
+      "@scripts/*": ["src/scripts/*"],
       "@styles/*": ["src/styles/*"]
     }
   }

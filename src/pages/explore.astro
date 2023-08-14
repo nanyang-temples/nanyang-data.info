@@ -1,0 +1,20 @@
+---
+import Layout from "@layouts/Page.astro";
+
+import "leaflet/dist/leaflet.css";
+---
+
+<Layout>
+  <section id="map"></section>
+  <script src="@scripts/main-map.mjs"></script>
+</Layout>
+
+<style>
+  #map {
+    height: 100%;
+    & :global(svg) {
+      stroke: white;
+      color: var(--theme-primary);
+    }
+  }
+</style>
