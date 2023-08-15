@@ -7,6 +7,8 @@ import Container from "@components/ui/Container.astro";
 
 import heroImage from "@img/nanyang-sites.400x400.png?url";
 import * as content from "@content/home-page.md";
+
+import { datasets } from "@datasets";
 ---
 
 <Layout>
@@ -40,6 +42,22 @@ import * as content from "@content/home-page.md";
         </picture>
       </div>
     </section>
+    <div>
+      <h3>Our Datasets:</h3>
+      <ul>
+        {
+          Object.entries(datasets).map(([id, dataset]) => {
+            return (
+              <li>
+                <a href=`datasets/${id}`>{dataset.projectName}</a>
+                <br />
+                {dataset.description}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
   </Container>
 </Layout>
 
