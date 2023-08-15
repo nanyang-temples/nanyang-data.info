@@ -1,0 +1,5 @@
+# ignore everything in this folder
+*
+
+# except this file itself (preserves the empty directory in the repo)
+!/.gitignore
