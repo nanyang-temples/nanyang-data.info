@@ -1,0 +1,65 @@
+---
+import Layout from "@layouts/Page.astro";
+import Container from "@components/ui/Container.astro";
+
+import { datasets } from "@datasets";
+
+export function getStaticPaths() {
+  return Object.entries(datasets).map(([key, dataset]) => ({
+    params: { dataset: key },
+  }));
+}
+
+const { dataset } = Astro.params;
+
+const { id, records, projectName, description, contact, license, repo } =
+  datasets[dataset];
+---
+
+<Layout>
+  <Container>
+    <h1>{projectName}</h1>
+    <p set:html={description} />
+    <dl>
+      <dt>Repository</dt>
+      <dd>
+        <a
+          href={`https://github.com/nanyang-temples/${repo}`}
+          rel="noopener"
+          target="_blank">{repo}</a
+        >
+      </dd>
+      <dt>Total Records</dt>
+      <dd>{records.length}</dd>
+      <dt>Contact</dt>
+      <dd>{contact}</dd>
+      <dt>License</dt>
+      <dd>
+        <a href={license.url} rel="license" target="_blank">{license.name}</a>
+      </dd>
+    </dl>
+    {
+      () => {
+        if (import.meta.env.DEV) {
+          return (
+            <details>
+              <summary style="box-sizing: content-box;">debug</summary>
+              <pre>{JSON.stringify(datasets[dataset], null, 2)}</pre>
+            </details>
+          );
+        }
+      }
+    }
+  </Container>
+</Layout>
+
+<style>
+  dl {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+</style>

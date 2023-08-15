@@ -9,9 +9,9 @@ const repositoriesPath = config.paths.repositories;
 
 export const datasets = {};
 
-for (let dir of fs.readdirSync(repositoriesPath)) {
-  const repositoryPath = path.join(repositoriesPath, dir);
-  console.log(dir, "|", repositoryPath);
+for (let repo of fs.readdirSync(repositoriesPath)) {
+  const repositoryPath = path.join(repositoriesPath, repo);
+  console.log(repo, "|", repositoryPath);
   if (!fs.lstatSync(repositoryPath).isDirectory()) continue;
   const datasetCsvs = fs
     .readdirSync(repositoryPath)
@@ -33,6 +33,6 @@ for (let dir of fs.readdirSync(repositoriesPath)) {
     const records = await neatCsv(csvFileContents, "utf-8");
     const metadata = yaml.load(yamlFileContents);
 
-    datasets[id] = { id, records, ...metadata };
+    datasets[id] = { id, records, repo, ...metadata };
   }
 }
