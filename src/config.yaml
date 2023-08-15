@@ -5,4 +5,7 @@ site:
   shortName: Nanyang Sites GIS data pool
 
 paths:
-  data: ../data
+  repositories: ./repositories # relative to project root
+
+datasets:
+  - https://github.com/nanyang-temples/thailand-public

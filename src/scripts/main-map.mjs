@@ -1,7 +1,7 @@
 import * as L from "leaflet/dist/leaflet-src.esm.js";
 
 const response = await fetch("../data/01-temples_in_bangkok_mb.json");
-const sites = (await response.json()).dataset;
+const dataset = (await response.json()).dataset;
 
 export const icon = L.divIcon({
   className: "marker",
@@ -27,7 +27,7 @@ tileLayer.addTo(map);
 map.setView([13, 110], 5);
 
 // create an object where keys are lat,long pairs and values are arrays of locations
-const locationsByLatLong = sites.reduce(
+const locationsByLatLong = dataset.records.reduce(
   (result, site) => ({
     ...result,
     [`${site.latitude},${site.longitude}`]: [
