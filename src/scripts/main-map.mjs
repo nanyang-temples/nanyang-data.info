@@ -53,10 +53,10 @@ Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
         .map(
           (site) =>
             `<p>${[
-              site.nanyangSiteID,
-              site["SiteName-zh"],
-              site["siteName-en"],
-              site["siteName-alt1"],
+              site.nanyangSiteId,
+              site["siteNameZh"],
+              site["siteNameEn"],
+              site["siteNameAlt1"],
             ].join("<br>")}</p>`,
         )
         .join(""),
