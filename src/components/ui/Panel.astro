@@ -1,0 +1,26 @@
+---
+const { surfaceNumber = 1, className } = Astro.props;
+const surfaceClass = "surface-" + surfaceNumber;
+---
+
+<section class:list={[surfaceClass, className]}>
+  <slot />
+</section>
+
+<style>
+  section {
+    border-radius: var(--theme-shape-radius);
+    margin: var(--default-section-margin) auto;
+    padding: 1rem 2rem;
+
+    &.surface-1 {
+      background: var(--theme-surface-1);
+      color: var(--theme-on-surface-1);
+    }
+
+    &.surface-2 {
+      background: var(--theme-surface-2);
+      color: var(--theme-on-surface-2);
+    }
+  }
+</style>
