@@ -49,7 +49,7 @@ import { datasets } from "@datasets";
           Object.entries(datasets).map(([id, dataset]) => {
             return (
               <li>
-                <a href=`datasets/${id}`>{dataset.projectName}</a>
+                <a href={`datasets/${id}`}>{dataset.projectName}</a>
                 <br />
                 {dataset.description}
               </li>
