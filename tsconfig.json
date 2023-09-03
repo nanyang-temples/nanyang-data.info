@@ -10,6 +10,7 @@
       "@datasets": ["src/datasets.js"],
       "@img/*": ["src/img/*"],
       "@layouts/*": ["src/components/layouts/*"],
+      "@lib/*": ["src/lib/*"],
       "@scripts/*": ["src/scripts/*"],
       "@styles/*": ["src/styles/*"]
     }
