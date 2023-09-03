@@ -26,7 +26,7 @@ for (let repo of fs.readdirSync(repositoriesPath)) {
     );
 
     const yamlFileContents = fs.readFileSync(
-      path.join(repositoryPath, `${id}.yaml`),
+      path.join(repositoryPath, `${id}_meta.yaml`),
       "utf8",
     );
 
