@@ -3,16 +3,24 @@ import Layout from "@layouts/Page.astro";
 
 import Button from "@components/ui/Button.astro";
 import Container from "@components/ui/Container.astro";
-import TextCardSection from "@components/ui/TextCardSection.astro";
 ---
 
 <Layout>
-  <Container>
-    <TextCardSection>
+  <Container narrow>
+    <section>
       <h1 style="margin-bottom:var(--default-section-margin);">
         404: Page Not Found 👀
       </h1>
       <Button href="/">Return Home</Button>
-    </TextCardSection>
+    </section>
   </Container>
 </Layout>
+
+<style>
+  section {
+    background-color: var(--theme-surface-1);
+    margin: var(--default-section-margin) auto;
+    padding: clamp(10vh, 12vh, 18vh) 2rem;
+    border-radius: var(--theme-shape-radius);
+  }
+</style>
