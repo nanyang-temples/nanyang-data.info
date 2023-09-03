@@ -1,6 +1,10 @@
 ---
+import { Icon } from "astro-icon";
+
+import { md2html } from "@lib/markdown-parsing.js";
 import Layout from "@layouts/Page.astro";
 import Container from "@components/ui/Container.astro";
+import Panel from "@components/ui/Panel.astro";
 
 import { datasets } from "@datasets";
 
@@ -12,32 +16,41 @@ export function getStaticPaths() {
 
 const { dataset } = Astro.params;
 
-const { id, records, projectName, description, contact, license, repo } =
+const { id, records, projectName, description, contact, license, repo, date } =
   datasets[dataset];
+date.setUTCHours(12);
 ---
 
 <Layout>
   <Container>
     <h1>{projectName}</h1>
-    <p set:html={description} />
-    <dl>
-      <dt>Repository</dt>
-      <dd>
-        <a
-          href={`https://github.com/nanyang-temples/${repo}`}
-          rel="noopener"
-          target="_blank">{repo}</a
-        >
-      </dd>
-      <dt>Total Records</dt>
-      <dd>{records.length}</dd>
-      <dt>Contact</dt>
-      <dd>{contact}</dd>
-      <dt>License</dt>
-      <dd>
-        <a href={license.url} rel="license" target="_blank">{license.name}</a>
-      </dd>
-    </dl>
+    <Panel
+      surfaceNumber={1}
+      className="description"
+      set:html={md2html(description)}
+    />
+    <Panel surfaceNumber={2}>
+      <dl>
+        <dt>Repository</dt>
+        <dd>
+          <a
+            href={`https://github.com/nanyang-temples/${repo}`}
+            rel="noopener"
+            target="_blank"><Icon name="mdi:github" /> {repo}</a
+          >
+        </dd>
+        <dt>Total Records</dt>
+        <dd>{records.length}</dd>
+        <dt>Contact</dt>
+        <dd>{contact}</dd>
+        <dt>Last Updated:</dt>
+        <dd>{date.toDateString()}</dd>
+        <dt>License</dt>
+        <dd>
+          <a href={license.url} rel="license" target="_blank">{license.name}</a>
+        </dd>
+      </dl>
+    </Panel>
     {
       () => {
         if (import.meta.env.DEV) {
@@ -61,5 +74,19 @@ const { id, records, projectName, description, contact, license, repo } =
 
   dt {
     font-weight: bold;
+  }
+
+  dd a {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .description {
+    font-size: var(--font-size-md);
+  }
+
+  [astro-icon] {
+    height: 1rem;
   }
 </style>
