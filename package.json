@@ -19,6 +19,7 @@
     "@astrojs/mdx": "^0.19.7",
     "@astrojs/sitemap": "^2.0.1",
     "@rollup/plugin-yaml": "^4.1.1",
+    "@types/js-yaml": "^4.0.5",
     "astro": "^2.10.1",
     "astro-icon": "^0.8.1",
     "neat-csv": "^7.0.0",

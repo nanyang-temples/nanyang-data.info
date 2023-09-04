@@ -21,6 +21,9 @@ devDependencies:
   '@rollup/plugin-yaml':
     specifier: ^4.1.1
     version: 4.1.1
+  '@types/js-yaml':
+    specifier: ^4.0.5
+    version: 4.0.5
   astro:
     specifier: ^2.10.1
     version: 2.10.1(sharp@0.32.4)
@@ -1349,6 +1352,10 @@ packages:
     resolution: {integrity: sha512-SvQi0L/lNpThgPoleH53cdjB3y9zpLlVjRbqB3rH8hx1jiRSBGAhyjV3H+URFjNVRqt2EdYNrbZE5IsGlNfpRg==}
     dependencies:
       '@types/unist': 2.0.7
+    dev: true
+
+  /@types/js-yaml@4.0.5:
+    resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
     dev: true
 
   /@types/json5@0.0.30:
