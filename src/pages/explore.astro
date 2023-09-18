@@ -4,25 +4,10 @@ import Layout from "@layouts/Page.astro";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import "@styles/map-styles.css";
 ---
 
 <Layout>
   <section id="map"></section>
   <script src="@scripts/main-map.mjs"></script>
 </Layout>
-
-<style>
-  #map {
-    height: 100%;
-    width: 100%;
-
-    & :global(svg) {
-      stroke: white;
-      color: var(--theme-primary);
-    }
-
-    & :global(.leaflet-control-attribution) {
-      font-size: clamp(10px, 1vw, 16px);
-    }
-  }
-</style>

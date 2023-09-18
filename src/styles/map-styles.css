@@ -1,0 +1,13 @@
+#map {
+  height: 100%;
+  width: 100%;
+
+  svg {
+    stroke: white;
+    color: var(--theme-primary);
+  }
+
+  .leaflet-control-attribution {
+    font-size: clamp(10px, 1vw, 16px);
+  }
+}
