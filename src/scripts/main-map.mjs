@@ -55,21 +55,100 @@ const markers = L.markerClusterGroup({
   spiderfyOnMaxZoom: false,
 });
 
+const buildPopUp = (locations, dataset) =>
+  locations
+    .map(
+      (site) =>
+        `<section>${[
+          site.nanyangSiteId,
+          site["siteNameZh"],
+          site["siteNameEn"],
+          site["siteNameAlt1"],
+
+          `<button data-site-id="${site.nanyangSiteId}"
+                   data-dataset-name="${dataset.projectName}"
+                   data-dataset-id="${dataset.id}"
+                   data-site-name-zh="${site["siteNameZh"]}"
+                   data-site-name-en="${site["siteNameEn"]}"
+                   data-site-name-alt1="${site["siteNameAlt1"]}">
+            details
+          </button>`,
+        ].join("<br>")}</section>`,
+    )
+    .join("");
+
+const showFullDetailsSidebar = (siteData, additionalMetadata) => {
+  const div = fullDetails.querySelector("div");
+
+  div.innerHTML = "";
+
+  if (siteData.siteNameZh) div.innerHTML += `<h3>${siteData.siteNameZh}</h3>`;
+  if (siteData.siteNameEn) div.innerHTML += `<h3>${siteData.siteNameEn}</h3>`;
+  if (siteData.siteNameAlt1)
+    div.innerHTML += `<h3>${siteData.siteNameAlt1}</h3>`;
+
+  div.innerHTML += `<a href="/datasets/${siteData.datasetId}">${siteData.datasetName}</a>`;
+  div.innerHTML += `<p>${siteData.siteId}</p>`;
+
+  div.innerHTML +=
+    "<dl>" +
+    Object.entries(additionalMetadata)
+      .filter(([key, value]) => key !== "nanyangSiteId")
+      .map(([key, value]) => {
+        return `<dt>${key}</dt><dd>${value}</dd>`;
+      })
+      .join("") +
+    "</dl>";
+  fullDetails.scrollTop = 0;
+  fullDetails.classList.add("show");
+};
+
+const buildFullDetailsEl = () => {
+  const fullDetails = document.createElement("div");
+
+  fullDetails.classList.add("full-details");
+
+  fullDetails.innerHTML = `
+  <a class="leaflet-popup-close-button" role="button" aria-label="Close popup" href="#close"><span aria-hidden="true">×</span></a>
+  <div></div>
+  `;
+
+  fullDetails
+    .querySelector("a[href='#close']")
+    .addEventListener("click", () => fullDetails.classList.remove("show"));
+
+  fullDetails.addEventListener("wheel", (event) => event.stopPropagation());
+
+  return fullDetails;
+};
+
+const fullDetails = buildFullDetailsEl();
+document.getElementById("map").appendChild(fullDetails);
+
 Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
-  const marker = L.marker(latLong.split(","), { icon: icon }).bindPopup(
-    locations
-      .map(
-        (site) =>
-          `<p>${[
-            site.nanyangSiteId,
-            site["siteNameZh"],
-            site["siteNameEn"],
-            site["siteNameAlt1"],
-          ].join("<br>")}</p>`,
-      )
-      .join(""),
-  );
+  const marker = L.marker(latLong.split(","), { icon: icon });
+  marker.bindPopup().on("click", () => {
+    marker.getPopup().setContent(buildPopUp(locations, dataset));
+    const popupEl = marker.getPopup().getElement();
+    popupEl.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.siteId;
+        fetch(`/data/${dataset.id}/${id}.json`)
+          .then((res) => res.json())
+          .then((additionalMetadata) =>
+            showFullDetailsSidebar(button.dataset, additionalMetadata),
+          );
+      });
+    });
+  });
   markers.addLayer(marker);
 });
 
 map.addLayer(markers);
+
+// close full details sidebar when clicking on the map
+document.getElementById("map").addEventListener("click", (event) => {
+  if (!event.target.dataset.id) {
+    fullDetails.classList.remove("show");
+  }
+});
