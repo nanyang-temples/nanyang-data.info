@@ -1,4 +1,8 @@
-import * as L from "leaflet/dist/leaflet-src.esm.js";
+import "leaflet";
+import "leaflet.markercluster";
+
+// Hack to expose global L from esm import
+const L = window["L"];
 
 const response = await fetch("../data/01-temples_in_bangkok_mb.json");
 const dataset = (await response.json()).dataset;
@@ -20,7 +24,7 @@ const tileLayer = L.tileLayer(
   },
 );
 
-const map = L.map("map", { minZoom: 4, maxZoom: 12 });
+const map = L.map("map", { minZoom: 4, maxZoom: 16 });
 tileLayer.addTo(map);
 
 // set view to show the relevant (?) part of Southeast Asia
@@ -45,20 +49,27 @@ map.fitBounds(
     .map((latLong) => latLong.split(",")),
 );
 
-Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
-  L.marker(latLong.split(","), { icon: icon })
-    .addTo(map)
-    .bindPopup(
-      locations
-        .map(
-          (site) =>
-            `<p>${[
-              site.nanyangSiteId,
-              site["siteNameZh"],
-              site["siteNameEn"],
-              site["siteNameAlt1"],
-            ].join("<br>")}</p>`,
-        )
-        .join(""),
-    );
+const markers = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  disableClusteringAtZoom: 12,
+  spiderfyOnMaxZoom: false,
 });
+
+Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
+  const marker = L.marker(latLong.split(","), { icon: icon }).bindPopup(
+    locations
+      .map(
+        (site) =>
+          `<p>${[
+            site.nanyangSiteId,
+            site["siteNameZh"],
+            site["siteNameEn"],
+            site["siteNameAlt1"],
+          ].join("<br>")}</p>`,
+      )
+      .join(""),
+  );
+  markers.addLayer(marker);
+});
+
+map.addLayer(markers);
