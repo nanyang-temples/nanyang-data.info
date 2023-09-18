@@ -61,9 +61,9 @@ const buildPopUp = (locations, dataset) =>
       (site) =>
         `<section>${[
           site.nanyangSiteId,
-          site["siteNameZh"],
-          site["siteNameEn"],
-          site["siteNameAlt1"],
+          site["siteNameZh"] || null,
+          site["siteNameEn"] || null,
+          site["siteNameAlt1"] || null,
 
           `<button data-site-id="${site.nanyangSiteId}"
                    data-dataset-name="${dataset.projectName}"
@@ -73,7 +73,9 @@ const buildPopUp = (locations, dataset) =>
                    data-site-name-alt1="${site["siteNameAlt1"]}">
             details
           </button>`,
-        ].join("<br>")}</section>`,
+        ]
+          .filter(Boolean)
+          .join("<br>")}</section>`,
     )
     .join("");
 
