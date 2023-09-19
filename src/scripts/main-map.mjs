@@ -148,3 +148,9 @@ Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
 });
 
 map.addLayer(markers);
+
+const mapEl = document.getElementById("map");
+mapEl.style.setProperty(
+  "--attribution-height",
+  mapEl.querySelector(".leaflet-control-attribution").offsetHeight + "px",
+);
