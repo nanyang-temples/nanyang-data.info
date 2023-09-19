@@ -8,12 +8,13 @@ import Logo from "@components/Logo.astro";
 
 export interface Props {
   seo?: BaseHeadProps;
+  isVersionOf?: string;
 }
 
-const { seo } = Astro.props as Props;
+const { seo, isVersionOf } = Astro.props as Props;
 ---
 
-<Layout seo={seo}>
+<Layout {seo} {isVersionOf}>
   <Header slot="header">
     <span slot="logo">
       <Logo />

@@ -16,12 +16,24 @@ export function getStaticPaths() {
 
 const { dataset } = Astro.params;
 
-const { id, records, projectName, description, contact, license, repo, date } =
-  datasets[dataset];
+const {
+  id,
+  records,
+  projectName,
+  description,
+  contact,
+  license,
+  repositoryUrl,
+  repositoryName,
+  repositoryRev,
+  date,
+} = datasets[dataset];
 date.setUTCHours(12);
+
+const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
 ---
 
-<Layout>
+<Layout {isVersionOf}>
   <Container>
     <h1>{projectName}</h1>
     <Panel
@@ -33,10 +45,8 @@ date.setUTCHours(12);
       <dl>
         <dt>Repository</dt>
         <dd>
-          <a
-            href={`https://github.com/nanyang-temples/${repo}`}
-            rel="noopener"
-            target="_blank"><Icon name="mdi:github" /> {repo}</a
+          <a href={repositoryUrl} rel="noopener" target="_blank"
+            ><Icon name="mdi:github" /> {repositoryName}</a
           >
         </dd>
         <dt>Total Records</dt>

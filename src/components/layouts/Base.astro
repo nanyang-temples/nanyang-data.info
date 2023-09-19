@@ -5,15 +5,14 @@ import type { Props as BaseHeadProps } from "@components/BaseHead.astro";
 
 export interface Props {
   seo?: BaseHeadProps;
+  isVersionOf?: string;
 }
 
-const { seo } = Astro.props;
+const { seo, isVersionOf } = Astro.props;
 ---
 
 <html lang="en">
-  <head>
-    <BaseHead {...seo} />
-  </head>
+  <BaseHead {...seo} {isVersionOf} />
   <body>
     <SkipLink />
     <slot name="header" />
