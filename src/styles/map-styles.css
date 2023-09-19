@@ -62,8 +62,8 @@
     }
 
     h3:last-of-type {
+      border-bottom: 1px solid var(--theme-surface-1);
       padding-bottom: 0.75rem;
-      border-bottom: 1px solid black;
     }
 
     dl {
@@ -75,13 +75,17 @@
     dt,
     dd {
       padding: 0.25rem 0.5rem;
-      border-bottom: 1px solid #eaeaea;
     }
 
     dt {
-      font-weight: bold;
-      background: #eaeaea;
+      background: var(--theme-surface-1);
+      border-bottom: 1px solid white;
       text-align: right;
+    }
+
+    dd {
+      border-bottom: 1px solid var(--theme-surface-1);
+      font-weight: bold;
     }
   }
 
