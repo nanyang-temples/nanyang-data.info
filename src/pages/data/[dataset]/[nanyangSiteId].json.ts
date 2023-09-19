@@ -27,12 +27,12 @@ const getExtendedMetadata = (repositoryPath, datasetId) => {
   return yaml.load(yamlFileContents);
 };
 
-export const get: APIRoute = ({ params, request }) => {
+export const GET: APIRoute = ({ params, request }) => {
   const dataset = datasets[params.dataset];
   const data = getExtendedMetadata(dataset.repositoryPath, dataset.id);
-  return {
-    body: JSON.stringify(
+  return new Response(
+    JSON.stringify(
       data.find((record) => record.nanyangSiteId === params.nanyangSiteId),
     ),
-  };
+  );
 };
