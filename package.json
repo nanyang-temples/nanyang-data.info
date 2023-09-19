@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "gh-deploy": "bin/gh-deploy.sh"
+    "gh-deploy": "CNAME=nanyang-data.info bin/gh-deploy.sh"
   },
   "dependencies": {
     "@fontsource/krub": "^5.0.8",
