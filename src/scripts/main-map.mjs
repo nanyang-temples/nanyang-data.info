@@ -143,14 +143,8 @@ Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
       });
     });
   });
+  marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
   markers.addLayer(marker);
 });
 
 map.addLayer(markers);
-
-// close full details sidebar when clicking on the map
-document.getElementById("map").addEventListener("click", (event) => {
-  if (!event.target.dataset.id) {
-    fullDetails.classList.remove("show");
-  }
-});
