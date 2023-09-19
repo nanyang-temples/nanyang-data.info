@@ -16,7 +16,7 @@ for (let repositoryUrl of repositories) {
   const repositoryPath = path.join(repositoriesPath, repositoryName);
   if (!fs.lstatSync(repositoryPath).isDirectory()) continue;
 
-  const repositoryRev = execSync("git rev-parse --short HEAD", {
+  const repositoryRev = execSync("git rev-parse HEAD", {
     cwd: repositoryPath,
   })
     .toString()
