@@ -1,0 +1,66 @@
+name: Update Media and Deploy Site
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-media-and-deploy-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: true
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Update Media Assets
+        run: pnpm update-media
+
+      - name: Check for Changes
+        id: check
+        run: |
+          git add .
+          if ! git diff --exit-code --quiet HEAD --; then
+            echo "has_new_media=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure git
+        if: steps.check.outputs.has_new_media == 'true'
+        run: |
+          git config user.email "simonjwiles@gmail.com"
+          git config user.name "Simon Wiles"
+
+      - name: Commit Changes
+        if: steps.check.outputs.has_new_media == 'true'
+        run: |
+          git commit -m "Automated Media Update $(date +"%Y-%m-%d")"
+          git push --force
+
+      - name: Build and Deploy Site
+        if: steps.check.outputs.has_new_media == 'true'
+        run: pnpm gh-deploy
