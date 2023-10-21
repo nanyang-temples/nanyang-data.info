@@ -4,8 +4,20 @@ import "leaflet.markercluster";
 // Hack to expose global L from esm import
 const L = window["L"];
 
-const response = await fetch("../data/01-temples_in_bangkok_mb.json");
-const dataset = (await response.json()).dataset;
+const datasetURLs = [
+  "../data/01-buddhist_temples_taiwan.json",
+  "../data/01-temples_in_bangkok_mb.json",
+];
+
+const getDataset = async (url) => {
+  const response = await fetch(url);
+  const dataset = (await response.json()).dataset;
+  return dataset;
+};
+
+const datasets = await Promise.all(
+  datasetURLs.map(async (url) => await getDataset(url)),
+);
 
 export const icon = L.divIcon({
   className: "marker",
@@ -31,15 +43,20 @@ tileLayer.addTo(map);
 map.setView([13, 110], 5);
 
 // create an object where keys are lat,long pairs and values are arrays of locations
-const locationsByLatLong = dataset.records.reduce(
-  (result, site) => ({
-    ...result,
-    [`${site.latitude},${site.longitude}`]: [
-      ...(result[`${site.latitude},${site.longitude}`] || []),
-      site,
-    ],
-  }),
+const locationsByLatLong = Object.assign(
   {},
+  ...datasets.map((d) =>
+    d.records.reduce(
+      (result, site) => ({
+        ...result,
+        [`${site.latitude},${site.longitude}`]: [
+          ...(result[`${site.latitude},${site.longitude}`] || []),
+          site,
+        ],
+      }),
+      {},
+    ),
+  ),
 );
 
 map.invalidateSize();
