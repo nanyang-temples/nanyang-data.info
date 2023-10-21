@@ -8,4 +8,5 @@ paths:
   repositories: ./repositories # relative to project root
 
 datasets:
+  - https://github.com/nanyang-temples/taiwan-public
   - https://github.com/nanyang-temples/thailand-public
