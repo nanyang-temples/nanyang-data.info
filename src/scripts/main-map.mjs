@@ -132,6 +132,22 @@ const buildFullDetailsEl = () => {
   return fullDetails;
 };
 
+const popupClick = (marker, locations) => {
+  marker.getPopup().setContent(buildPopUp(locations));
+  const popupEl = marker.getPopup().getElement();
+  popupEl.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.siteId;
+      const datasetId = button.dataset.datasetId;
+      fetch(`/data/${datasetId}/${id}.json`)
+        .then((res) => res.json())
+        .then((additionalMetadata) =>
+          showFullDetailsSidebar(button.dataset, additionalMetadata),
+        );
+    });
+  });
+};
+
 const fullDetails = buildFullDetailsEl();
 document.getElementById("map").appendChild(fullDetails);
 
@@ -146,21 +162,7 @@ datasets.forEach((dataset, i) => {
 
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
     const marker = L.marker(latLong.split(","), { icon: icon });
-    marker.bindPopup().on("click", () => {
-      marker.getPopup().setContent(buildPopUp(locations));
-      const popupEl = marker.getPopup().getElement();
-      popupEl.querySelectorAll("button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const id = button.dataset.siteId;
-          const datasetId = button.dataset.datasetId;
-          fetch(`/data/${datasetId}/${id}.json`)
-            .then((res) => res.json())
-            .then((additionalMetadata) =>
-              showFullDetailsSidebar(button.dataset, additionalMetadata),
-            );
-        });
-      });
-    });
+    marker.bindPopup().on("click", () => popupClick(marker, locations));
     marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
     markers.addLayer(marker);
     map.addLayer(markers);
