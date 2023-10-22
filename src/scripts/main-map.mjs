@@ -96,7 +96,23 @@ const buildPopUp = (locations) =>
     )
     .join("");
 
+const isValidHttpUrl = (string) => {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
+};
+
 const showFullDetailsSidebar = (siteData, additionalMetadata) => {
+  const processValue = (value) => {
+    if (isValidHttpUrl(value))
+      return `<a href="${value}" target="_blank">${value}</a>`;
+    return value;
+  };
+
   const div = fullDetails.querySelector("div");
 
   div.innerHTML = "";
@@ -114,7 +130,7 @@ const showFullDetailsSidebar = (siteData, additionalMetadata) => {
     Object.entries(additionalMetadata)
       .filter(([key, value]) => key !== "nanyangSiteId")
       .map(([key, value]) => {
-        return `<dt>${key}</dt><dd>${value}</dd>`;
+        return `<dt>${key}</dt><dd>${processValue(value)}</dd>`;
       })
       .join("") +
     "</dl>";
