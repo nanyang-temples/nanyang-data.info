@@ -51,7 +51,7 @@ const locationsByLatLong = Object.assign(
         ...result,
         [`${site.latitude},${site.longitude}`]: [
           ...(result[`${site.latitude},${site.longitude}`] || []),
-          site,
+          { ...site, datasetId: d.id, projectName: d.projectName },
         ],
       }),
       {},
@@ -72,7 +72,7 @@ const markers = L.markerClusterGroup({
   spiderfyOnMaxZoom: false,
 });
 
-const buildPopUp = (locations, dataset) =>
+const buildPopUp = (locations) =>
   locations
     .map(
       (site) =>
@@ -83,8 +83,8 @@ const buildPopUp = (locations, dataset) =>
           site["siteNameAlt1"] || null,
 
           `<button data-site-id="${site.nanyangSiteId}"
-                   data-dataset-name="${dataset.projectName}"
-                   data-dataset-id="${dataset.id}"
+                   data-dataset-name="${site.projectName}"
+                   data-dataset-id="${site.datasetId}"
                    data-site-name-zh="${site["siteNameZh"]}"
                    data-site-name-en="${site["siteNameEn"]}"
                    data-site-name-alt1="${site["siteNameAlt1"]}">
@@ -147,12 +147,13 @@ document.getElementById("map").appendChild(fullDetails);
 Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
   const marker = L.marker(latLong.split(","), { icon: icon });
   marker.bindPopup().on("click", () => {
-    marker.getPopup().setContent(buildPopUp(locations, dataset));
+    marker.getPopup().setContent(buildPopUp(locations));
     const popupEl = marker.getPopup().getElement();
     popupEl.querySelectorAll("button").forEach((button) => {
       button.addEventListener("click", () => {
         const id = button.dataset.siteId;
-        fetch(`/data/${dataset.id}/${id}.json`)
+        const datasetId = button.dataset.datasetId;
+        fetch(`/data/${datasetId}/${id}.json`)
           .then((res) => res.json())
           .then((additionalMetadata) =>
             showFullDetailsSidebar(button.dataset, additionalMetadata),
