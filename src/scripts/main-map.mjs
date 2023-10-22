@@ -65,12 +65,17 @@ const buildPopUp = (locations) =>
           site["siteNameEn"] || null,
           site["siteNameAlt1"] || null,
 
-          `<button data-site-id="${site.nanyangSiteId}"
-                   data-dataset-name="${site.projectName}"
-                   data-dataset-id="${site.datasetId}"
-                   data-site-name-zh="${site["siteNameZh"]}"
-                   data-site-name-en="${site["siteNameEn"]}"
-                   data-site-name-alt1="${site["siteNameAlt1"]}">
+          `<button
+              data-site-id="${site.nanyangSiteId}"
+              data-dataset-name="${site.projectName}"
+              data-dataset-id="${site.datasetId}"
+              ${site.siteNameZh && `data-site-name-zh="${site.siteNameZh}"`}
+              ${site.siteNameEn && `data-site-name-en="${site.siteNameEn}"`}
+              ${
+                site.siteNameAlt1 &&
+                `data-site-name-alt1="${site.siteNameAlt1}"`
+              }
+          >
             details
           </button>`,
         ]
