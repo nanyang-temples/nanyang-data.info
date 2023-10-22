@@ -5,8 +5,8 @@ import "leaflet.markercluster";
 const L = window["L"];
 
 const datasetURLs = [
-  "../data/01-buddhist_temples_taiwan.json",
-  "../data/01-temples_in_bangkok_mb.json",
+  "../data/01-buddhist_temples_taiwan/by-latlong.json",
+  "../data/01-temples_in_bangkok_mb/by-latlong.json",
 ];
 
 const getDataset = async (url) => {
@@ -41,19 +41,6 @@ tileLayer.addTo(map);
 
 // set view to show the relevant (?) part of Southeast Asia
 map.setView([13, 110], 5);
-
-const mapLocationsByLatLong = (d) =>
-  // create an object where keys are lat,long pairs and values are arrays of locations
-  d.records.reduce(
-    (result, site) => ({
-      ...result,
-      [`${site.latitude},${site.longitude}`]: [
-        ...(result[`${site.latitude},${site.longitude}`] || []),
-        { ...site, datasetId: d.id, projectName: d.projectName },
-      ],
-    }),
-    {},
-  );
 
 const buildPopUp = (locations) =>
   locations
@@ -151,14 +138,13 @@ document.getElementById("map").appendChild(fullDetails);
 const overlayLayers = {};
 
 datasets.forEach((dataset, i) => {
-  const locationsByLatLong = mapLocationsByLatLong(dataset);
   const markers = L.markerClusterGroup({
     showCoverageOnHover: false,
     disableClusteringAtZoom: 12,
     spiderfyOnMaxZoom: false,
   });
 
-  Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
+  Object.entries(dataset.records).forEach(([latLong, locations]) => {
     const marker = L.marker(latLong.split(","), { icon: icon });
     marker.bindPopup().on("click", () => {
       marker.getPopup().setContent(buildPopUp(locations));
