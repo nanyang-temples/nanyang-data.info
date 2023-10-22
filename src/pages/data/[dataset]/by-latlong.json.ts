@@ -15,7 +15,7 @@ const mapLocationsByLatLong = (d) =>
       ...result,
       [`${site.latitude},${site.longitude}`]: [
         ...(result[`${site.latitude},${site.longitude}`] || []),
-        { ...site, datasetId: d.id, projectName: d.projectName },
+        site,
       ],
     }),
     {},

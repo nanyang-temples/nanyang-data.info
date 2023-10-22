@@ -42,7 +42,7 @@ tileLayer.addTo(map);
 // set view to show the relevant (?) part of Southeast Asia
 map.setView([13, 110], 5);
 
-const buildPopUp = (locations) =>
+const buildPopUp = (locations, projectName) =>
   locations
     .map(
       (site) =>
@@ -54,8 +54,7 @@ const buildPopUp = (locations) =>
 
           `<button
               data-site-id="${site.nanyangSiteId}"
-              data-dataset-name="${site.projectName}"
-              data-dataset-id="${site.datasetId}"
+              data-dataset-name="${projectName}"
               ${site.siteNameZh && `data-site-name-zh="${site.siteNameZh}"`}
               ${site.siteNameEn && `data-site-name-en="${site.siteNameEn}"`}
               ${
@@ -81,7 +80,7 @@ const isValidHttpUrl = (string) => {
   return url.protocol === "http:" || url.protocol === "https:";
 };
 
-const showFullDetailsSidebar = (siteData, additionalMetadata) => {
+const showFullDetailsSidebar = (siteData, additionalMetadata, datasetId) => {
   const processValue = (value) => {
     if (isValidHttpUrl(value))
       return `<a href="${value}" target="_blank">${value}</a>`;
@@ -97,7 +96,7 @@ const showFullDetailsSidebar = (siteData, additionalMetadata) => {
   if (siteData.siteNameAlt1)
     div.innerHTML += `<h3>${siteData.siteNameAlt1}</h3>`;
 
-  div.innerHTML += `<a href="/datasets/${siteData.datasetId}">${siteData.datasetName}</a>`;
+  div.innerHTML += `<a href="/datasets/${datasetId}">${siteData.datasetName}</a>`;
   div.innerHTML += `<p>${siteData.siteId}</p>`;
 
   div.innerHTML +=
@@ -132,17 +131,16 @@ const buildFullDetailsEl = () => {
   return fullDetails;
 };
 
-const popupClick = (marker, locations) => {
-  marker.getPopup().setContent(buildPopUp(locations));
+const popupClick = (marker, locations, datasetId, projectName) => {
+  marker.getPopup().setContent(buildPopUp(locations, projectName));
   const popupEl = marker.getPopup().getElement();
   popupEl.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", () => {
       const id = button.dataset.siteId;
-      const datasetId = button.dataset.datasetId;
       fetch(`/data/${datasetId}/${id}.json`)
         .then((res) => res.json())
         .then((additionalMetadata) =>
-          showFullDetailsSidebar(button.dataset, additionalMetadata),
+          showFullDetailsSidebar(button.dataset, additionalMetadata, datasetId),
         );
     });
   });
@@ -162,7 +160,11 @@ datasets.forEach((dataset, i) => {
 
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
     const marker = L.marker(latLong.split(","), { icon: icon });
-    marker.bindPopup().on("click", () => popupClick(marker, locations));
+    marker
+      .bindPopup()
+      .on("click", () =>
+        popupClick(marker, locations, dataset.id, dataset.projectName),
+      );
     marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
     markers.addLayer(marker);
     map.addLayer(markers);
