@@ -42,28 +42,18 @@ tileLayer.addTo(map);
 // set view to show the relevant (?) part of Southeast Asia
 map.setView([13, 110], 5);
 
-// create an object where keys are lat,long pairs and values are arrays of locations
-const locationsByLatLong = Object.assign(
-  {},
-  ...datasets.map((d) =>
-    d.records.reduce(
-      (result, site) => ({
-        ...result,
-        [`${site.latitude},${site.longitude}`]: [
-          ...(result[`${site.latitude},${site.longitude}`] || []),
-          { ...site, datasetId: d.id, projectName: d.projectName },
-        ],
-      }),
-      {},
-    ),
-  ),
-);
-
-const markers = L.markerClusterGroup({
-  showCoverageOnHover: false,
-  disableClusteringAtZoom: 12,
-  spiderfyOnMaxZoom: false,
-});
+const mapLocationsByLatLong = (d) =>
+  // create an object where keys are lat,long pairs and values are arrays of locations
+  d.records.reduce(
+    (result, site) => ({
+      ...result,
+      [`${site.latitude},${site.longitude}`]: [
+        ...(result[`${site.latitude},${site.longitude}`] || []),
+        { ...site, datasetId: d.id, projectName: d.projectName },
+      ],
+    }),
+    {},
+  );
 
 const buildPopUp = (locations) =>
   locations
@@ -153,28 +143,43 @@ const buildFullDetailsEl = () => {
 const fullDetails = buildFullDetailsEl();
 document.getElementById("map").appendChild(fullDetails);
 
-Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
-  const marker = L.marker(latLong.split(","), { icon: icon });
-  marker.bindPopup().on("click", () => {
-    marker.getPopup().setContent(buildPopUp(locations));
-    const popupEl = marker.getPopup().getElement();
-    popupEl.querySelectorAll("button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const id = button.dataset.siteId;
-        const datasetId = button.dataset.datasetId;
-        fetch(`/data/${datasetId}/${id}.json`)
-          .then((res) => res.json())
-          .then((additionalMetadata) =>
-            showFullDetailsSidebar(button.dataset, additionalMetadata),
-          );
+const overlayLayers = {};
+
+datasets.forEach((dataset, i) => {
+  const locationsByLatLong = mapLocationsByLatLong(dataset);
+  const markers = L.markerClusterGroup({
+    showCoverageOnHover: false,
+    disableClusteringAtZoom: 12,
+    spiderfyOnMaxZoom: false,
+  });
+
+  Object.entries(locationsByLatLong).forEach(([latLong, locations]) => {
+    const marker = L.marker(latLong.split(","), { icon: icon });
+    marker.bindPopup().on("click", () => {
+      marker.getPopup().setContent(buildPopUp(locations));
+      const popupEl = marker.getPopup().getElement();
+      popupEl.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const id = button.dataset.siteId;
+          const datasetId = button.dataset.datasetId;
+          fetch(`/data/${datasetId}/${id}.json`)
+            .then((res) => res.json())
+            .then((additionalMetadata) =>
+              showFullDetailsSidebar(button.dataset, additionalMetadata),
+            );
+        });
       });
     });
+    marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
+    markers.addLayer(marker);
+    map.addLayer(markers);
+    overlayLayers[dataset.projectName] = markers;
   });
-  marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
-  markers.addLayer(marker);
 });
 
-map.addLayer(markers);
+const layerControl = L.control
+  .layers([], overlayLayers /*, { collapsed: false } */)
+  .addTo(map);
 
 const mapEl = document.getElementById("map");
 mapEl.style.setProperty(
