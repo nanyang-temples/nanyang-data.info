@@ -59,13 +59,6 @@ const locationsByLatLong = Object.assign(
   ),
 );
 
-map.invalidateSize();
-map.fitBounds(
-  Object.keys(locationsByLatLong)
-    .filter((latLong) => latLong != ",")
-    .map((latLong) => latLong.split(",")),
-);
-
 const markers = L.markerClusterGroup({
   showCoverageOnHover: false,
   disableClusteringAtZoom: 12,
