@@ -47,9 +47,10 @@ const map = L.map("map", { minZoom: 4, maxZoom: 18 });
 streetLayer.addTo(map);
 
 // set view to show the relevant (?) part of Southeast Asia
+// TODO: go back to setting this automatically?
 map.setView([13, 110], 5);
 
-const buildPopUp = (locations, projectName) =>
+const buildPopUp = (marker, locations) =>
   locations
     .map(
       (site) =>
@@ -58,19 +59,7 @@ const buildPopUp = (locations, projectName) =>
           site["siteNameZh"] || null,
           site["siteNameEn"] || null,
           site["siteNameAlt1"] || null,
-
-          `<button
-              data-site-id="${site.nanyangSiteId}"
-              data-dataset-name="${projectName}"
-              ${site.siteNameZh && `data-site-name-zh="${site.siteNameZh}"`}
-              ${site.siteNameEn && `data-site-name-en="${site.siteNameEn}"`}
-              ${
-                site.siteNameAlt1 &&
-                `data-site-name-alt1="${site.siteNameAlt1}"`
-              }
-          >
-            details
-          </button>`,
+          `<button data-site-id="${site.nanyangSiteId}">details</button>`,
         ]
           .filter(Boolean)
           .join("<br>")}</section>`,
@@ -87,7 +76,7 @@ const isValidHttpUrl = (string) => {
   return url.protocol === "http:" || url.protocol === "https:";
 };
 
-const showFullDetailsSidebar = (siteData, additionalMetadata, datasetId) => {
+const showFullDetailsSidebar = (siteData, additionalMetadata) => {
   const processValue = (value) => {
     if (isValidHttpUrl(value))
       return `<a href="${value}" target="_blank">${value}</a>`;
@@ -103,8 +92,8 @@ const showFullDetailsSidebar = (siteData, additionalMetadata, datasetId) => {
   if (siteData.siteNameAlt1)
     div.innerHTML += `<h3>${siteData.siteNameAlt1}</h3>`;
 
-  div.innerHTML += `<a href="/datasets/${datasetId}">${siteData.datasetName}</a>`;
-  div.innerHTML += `<p>${siteData.siteId}</p>`;
+  div.innerHTML += `<a href="/datasets/${siteData.datasetId}">${siteData.datasetName}</a>`;
+  div.innerHTML += `<p>${siteData.nanyangSiteId}</p>`;
 
   div.innerHTML +=
     "<dl>" +
@@ -138,16 +127,17 @@ const buildFullDetailsEl = () => {
   return fullDetails;
 };
 
-const popupClick = (marker, locations, datasetId, projectName) => {
-  marker.getPopup().setContent(buildPopUp(locations, projectName));
+const popupClick = (marker, locations) => {
+  marker.getPopup().setContent(buildPopUp(marker, locations));
   const popupEl = marker.getPopup().getElement();
   popupEl.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", () => {
-      const id = button.dataset.siteId;
-      fetch(`/data/${datasetId}/${id}.json`)
+      const siteData = sites[button.dataset.siteId];
+      console.log(siteData);
+      fetch(`/data/${siteData.datasetId}/${button.dataset.siteId}.json`)
         .then((res) => res.json())
         .then((additionalMetadata) =>
-          showFullDetailsSidebar(button.dataset, additionalMetadata, datasetId),
+          showFullDetailsSidebar(siteData, additionalMetadata),
         );
     });
   });
@@ -156,7 +146,8 @@ const popupClick = (marker, locations, datasetId, projectName) => {
 const fullDetails = buildFullDetailsEl();
 document.getElementById("map").appendChild(fullDetails);
 
-const overlayLayers = {};
+const layers = {};
+let sites = {};
 
 datasets.forEach((dataset, i) => {
   const markers = L.markerClusterGroup({
@@ -167,22 +158,35 @@ datasets.forEach((dataset, i) => {
 
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
     const marker = L.marker(latLong.split(","), { icon: icon });
-    marker
-      .bindPopup()
-      .on("click", () =>
-        popupClick(marker, locations, dataset.id, dataset.projectName),
-      );
+    marker.bindPopup().on("click", () => popupClick(marker, locations));
     marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
     markers.addLayer(marker);
-    map.addLayer(markers);
-    overlayLayers[dataset.projectName] = markers;
+    // TODO: this is ugly
+    sites = {
+      ...sites,
+      ...Object.fromEntries(
+        locations.map((location) => [
+          location.nanyangSiteId,
+          {
+            ...location,
+            ...{
+              datasetId: dataset.id,
+              datasetName: dataset.projectName,
+              marker,
+            },
+          },
+        ]),
+      ),
+    };
   });
+  map.addLayer(markers);
+  layers[dataset.projectName] = markers;
 });
 
 const layerControl = L.control
   .layers(
     { "Street Map": streetLayer, Satellite: satelliteLayer },
-    overlayLayers /*, { collapsed: false } */,
+    layers /*, { collapsed: false } */,
   )
   .addTo(map);
 
