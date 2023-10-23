@@ -1,5 +1,6 @@
 import "leaflet";
 import "leaflet.markercluster";
+import Autocomplete from "@vendor/autocomplete.esm.js";
 
 // Hack to expose global L from esm import
 const L = window["L"];
@@ -133,7 +134,6 @@ const popupClick = (marker, locations) => {
   popupEl.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", () => {
       const siteData = sites[button.dataset.siteId];
-      console.log(siteData);
       fetch(`/data/${siteData.datasetId}/${button.dataset.siteId}.json`)
         .then((res) => res.json())
         .then((additionalMetadata) =>
@@ -195,3 +195,43 @@ mapEl.style.setProperty(
   "--attribution-height",
   mapEl.querySelector(".leaflet-control-attribution").offsetHeight + "px",
 );
+
+new Autocomplete("search", {
+  cache: true,
+  selectFirst: true,
+
+  onSearch: ({ currentValue }) => {
+    return Object.values(sites).filter((site) =>
+      site.siteNameEn?.match(new RegExp(currentValue, "i")),
+    );
+  },
+
+  onResults: ({ currentValue, matches, template }) => {
+    return matches === 0
+      ? template
+      : matches
+          .map((site) => {
+            return `
+              <li>
+                ${site.siteNameEn.replace(
+                  new RegExp(currentValue, "i"),
+                  (str) => `<mark>${str}</mark>`,
+                )}
+              </li> `;
+          })
+          .join("");
+  },
+
+  onSubmit: ({ object }) => {
+    map.once("zoomend", () =>
+      setTimeout(() => {
+        object.marker.openPopup();
+        popupClick(object.marker, [object]);
+      }, 1),
+    );
+    map.flyTo(Object.values(object.marker._latlng), 12);
+  },
+
+  noResults: ({ currentValue, template }) =>
+    template(`<li>No results found: "${currentValue}"</li>`),
+});
