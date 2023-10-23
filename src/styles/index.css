@@ -2,3 +2,7 @@
 @import url("./layout.css");
 @import url("./theme.css");
 @import url("./typography.css");
+
+body {
+  accent-color: var(--theme-primary);
+}
