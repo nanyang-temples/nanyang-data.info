@@ -242,7 +242,7 @@ new Autocomplete("search", {
   },
 
   onOpened: ({ results }) => {
-    document.querySelector(".auto-search-wrapper").style.zIndex = "1001";
+    document.querySelector(".auto-search-wrapper").style.zIndex = "1003";
     const resultsTop = results.parentElement.getBoundingClientRect().top;
     const footerHeight = document.body.querySelector("footer").offsetHeight;
     results.parentElement.style.maxHeight = `calc(100vh - ${resultsTop}px - ${footerHeight}px - 10px)`;
