@@ -4,10 +4,58 @@ import Layout from "@layouts/Page.astro";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import "@vendor/autocomplete.min.css";
 import "@styles/map-styles.css";
 ---
 
 <Layout>
+  <div class="auto-search-wrapper loupe">
+    <input type="text" autocomplete="off" id="search" placeholder="search..." />
+  </div>
+
   <section id="map"></section>
   <script src="@scripts/main-map.mjs"></script>
 </Layout>
+
+<style>
+  .auto-search-wrapper {
+    left: calc(34px + 20px);
+    position: absolute;
+    top: 10px;
+    width: min(250px, calc(100vw - 34px - 20px - 48px - 20px));
+    z-index: 1001;
+
+    input {
+      background-clip: padding-box;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+    }
+
+    :global(.auto-results-wrapper.auto-is-active) {
+      background-clip: padding-box;
+      border-radius: 5px;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      font-size: 18px;
+      max-height: calc(100vh - 5vh - 20px - var(--header-height, 140px));
+      max-width: calc(100vw - 34px - 20px - 10px);
+      overflow-y: auto;
+      transform: translateY(2px);
+      width: max-content;
+    }
+
+    :global(li) {
+      outline: 1px solid rgba(0 0 0 / 0.05);
+    }
+
+    :global(.auto-selected) {
+      background-color: var(--theme-surface-1);
+    }
+
+    :global(mark) {
+      background: none;
+      color: var(--theme-primary);
+      font-weight: bold;
+      outline: 1px solid rgba(218 165 32 / 0.6);
+    }
+  }
+</style>

@@ -12,7 +12,8 @@
       "@layouts/*": ["src/components/layouts/*"],
       "@lib/*": ["src/lib/*"],
       "@scripts/*": ["src/scripts/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@vendor/*": ["src/vendor/*"]
     }
   }
 }

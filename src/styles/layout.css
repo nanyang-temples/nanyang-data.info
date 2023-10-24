@@ -36,6 +36,7 @@ main {
   height: 100%;
   justify-content: flex-start;
   overflow-y: auto;
+  position: relative;
   width: 100%;
   z-index: 1;
 }
