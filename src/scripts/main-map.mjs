@@ -27,7 +27,7 @@ export const icon = L.divIcon({
   popupAnchor: [0, -45],
 });
 
-const tileLayer = L.tileLayer(
+const streetLayer = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
   {
     attribution:
@@ -35,8 +35,16 @@ const tileLayer = L.tileLayer(
   },
 );
 
-tileLayer.addTo(map);
+const satelliteLayer = L.tileLayer(
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  {
+    attribution:
+      "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+  },
+);
+
 const map = L.map("map", { minZoom: 4, maxZoom: 18 });
+streetLayer.addTo(map);
 
 // set view to show the relevant (?) part of Southeast Asia
 map.setView([13, 110], 5);
@@ -172,7 +180,10 @@ datasets.forEach((dataset, i) => {
 });
 
 const layerControl = L.control
-  .layers([], overlayLayers /*, { collapsed: false } */)
+  .layers(
+    { "Street Map": streetLayer, Satellite: satelliteLayer },
+    overlayLayers /*, { collapsed: false } */,
+  )
   .addTo(map);
 
 const mapEl = document.getElementById("map");
