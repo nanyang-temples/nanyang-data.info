@@ -196,30 +196,39 @@ mapEl.style.setProperty(
   mapEl.querySelector(".leaflet-control-attribution").offsetHeight + "px",
 );
 
+const markupSearchResult = (siteName, query) => {
+  return siteName
+    ? siteName.replace(new RegExp(query, "i"), (str) => `<mark>${str}</mark>`)
+    : null;
+};
+
+const formatSearchResult = (site, query) => {
+  return `<li>${[
+    markupSearchResult(site.siteNameZh, query),
+    markupSearchResult(site.siteNameEn, query),
+    markupSearchResult(site.siteNameAlt1, query),
+  ]
+    .filter(Boolean)
+    .join("<br>")}</li>`;
+};
+
 new Autocomplete("search", {
   cache: true,
   selectFirst: true,
 
   onSearch: ({ currentValue }) => {
-    return Object.values(sites).filter((site) =>
-      site.siteNameEn?.match(new RegExp(currentValue, "i")),
+    return Object.values(sites).filter(
+      (site) =>
+        site.siteNameEn?.match(new RegExp(currentValue, "i")) ||
+        site.siteNameZh?.match(new RegExp(currentValue, "i")) ||
+        site.siteNameAlt1?.match(new RegExp(currentValue, "i")),
     );
   },
 
   onResults: ({ currentValue, matches, template }) => {
     return matches === 0
       ? template
-      : matches
-          .map((site) => {
-            return `
-              <li>
-                ${site.siteNameEn.replace(
-                  new RegExp(currentValue, "i"),
-                  (str) => `<mark>${str}</mark>`,
-                )}
-              </li> `;
-          })
-          .join("");
+      : matches.map((site) => formatSearchResult(site, currentValue)).join("");
   },
 
   onSubmit: ({ object }) => {
@@ -233,5 +242,5 @@ new Autocomplete("search", {
   },
 
   noResults: ({ currentValue, template }) =>
-    template(`<li>No results found: "${currentValue}"</li>`),
+    template(`<li>No results found: “${currentValue}”</li>`),
 });

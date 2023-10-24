@@ -23,7 +23,7 @@ import "@styles/map-styles.css";
     position: absolute;
     top: 10px;
     width: min(250px, calc(100vw - 34px - 20px - 48px - 20px));
-    z-index: 999;
+    z-index: 1001;
 
     input {
       background-clip: padding-box;
@@ -35,9 +35,27 @@ import "@styles/map-styles.css";
       background-clip: padding-box;
       border-radius: 5px;
       border: 2px solid rgba(0, 0, 0, 0.2);
+      font-size: 18px;
+      max-height: calc(100vh - 5vh - 20px - var(--header-height, 140px));
       max-width: calc(100vw - 34px - 20px - 10px);
+      overflow-y: auto;
       transform: translateY(2px);
       width: max-content;
+    }
+
+    :global(li) {
+      outline: 1px solid rgba(0 0 0 / 0.05);
+    }
+
+    :global(.auto-selected) {
+      background-color: var(--theme-surface-1);
+    }
+
+    :global(mark) {
+      background: none;
+      color: var(--theme-primary);
+      font-weight: bold;
+      outline: 1px solid rgba(218 165 32 / 0.6);
     }
   }
 </style>
