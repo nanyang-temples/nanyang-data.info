@@ -119,6 +119,7 @@ const buildFullDetailsEl = () => {
     .addEventListener("click", () => fullDetails.classList.remove("show"));
 
   fullDetails.addEventListener("wheel", (event) => event.stopPropagation());
+  L.DomEvent.disableClickPropagation(fullDetails);
 
   return fullDetails;
 };

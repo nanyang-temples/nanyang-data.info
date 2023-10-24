@@ -59,6 +59,7 @@
     border-radius: 0;
     bottom: 0;
     box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+    cursor: initial;
     height: 50%;
     left: 0 !important;
     margin: 0;
