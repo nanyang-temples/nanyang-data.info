@@ -213,8 +213,8 @@ const formatSearchResult = (site, query) => {
     .join("<br>")}</li>`;
 };
 
-new Autocomplete("search", {
-  cache: true,
+const searchInput = new Autocomplete("search", {
+  cache: false,
   selectFirst: true,
 
   onSearch: ({ currentValue }) => {
@@ -232,7 +232,9 @@ new Autocomplete("search", {
       : matches.map((site) => formatSearchResult(site, currentValue)).join("");
   },
 
-  onSubmit: ({ object }) => {
+  onSubmit: ({ element, object }) => {
+    searchInput.destroy();
+    element.blur();
     map.once("zoomend", () =>
       setTimeout(() => {
         object.marker.openPopup();
