@@ -32,12 +32,11 @@ const tileLayer = L.tileLayer(
   {
     attribution:
       "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
-    maxZoom: 16,
   },
 );
 
-const map = L.map("map", { minZoom: 4, maxZoom: 16 });
 tileLayer.addTo(map);
+const map = L.map("map", { minZoom: 4, maxZoom: 18 });
 
 // set view to show the relevant (?) part of Southeast Asia
 map.setView([13, 110], 5);
