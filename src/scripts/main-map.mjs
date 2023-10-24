@@ -241,6 +241,14 @@ new Autocomplete("search", {
     map.flyTo(Object.values(object.marker._latlng), 12);
   },
 
+  onOpened: (/* { element, results } */) => {
+    document.querySelector(".auto-search-wrapper").style.zIndex = "1001";
+  },
+
+  onClose: () => {
+    document.querySelector(".auto-search-wrapper").style.zIndex = "999";
+  },
+
   noResults: ({ currentValue, template }) =>
     template(`<li>No results found: “${currentValue}”</li>`),
 });
