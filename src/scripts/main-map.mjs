@@ -56,11 +56,11 @@ const buildPopUp = (marker, locations) =>
     .map(
       (site) =>
         `<section>${[
-          site.nanyangSiteId,
+          `<span class="pill">${marker.datasetName}</span>`,
           site["siteNameZh"] || null,
           site["siteNameEn"] || null,
           site["siteNameAlt1"] || null,
-          `<button data-site-id="${site.nanyangSiteId}">details</button>`,
+          `<button data-site-id="${site.nanyangSiteId}">show details</button>`,
         ]
           .filter(Boolean)
           .join("<br>")}</section>`,
@@ -158,6 +158,7 @@ datasets.forEach((dataset, i) => {
 
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
     const marker = L.marker(latLong.split(","), { icon: icon });
+    marker.datasetName = dataset.projectName;
     marker.bindPopup().on("click", () => popupClick(marker, locations));
     marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
     markers.addLayer(marker);
@@ -204,7 +205,7 @@ const markupSearchResult = (siteName, query) => {
 
 const formatSearchResult = (site, query) => {
   return `<li>${[
-    `<span>${site.datasetName}</span>`,
+    `<span class="pill">${site.datasetName}</span>`,
     markupSearchResult(site.siteNameZh, query),
     markupSearchResult(site.siteNameEn, query),
     markupSearchResult(site.siteNameAlt1, query),

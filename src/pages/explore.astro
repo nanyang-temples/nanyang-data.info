@@ -48,12 +48,7 @@ import "@styles/map-styles.css";
       outline: 1px solid rgba(0 0 0 / 0.05);
 
       :global(span) {
-        background: var(--theme-surface-2);
-        border-radius: var(--theme-button-border-radius);
         float: right;
-        font-size: 12px;
-        margin-top: 4px;
-        padding: 2px 8px;
       }
     }
 
@@ -67,5 +62,14 @@ import "@styles/map-styles.css";
       font-weight: bold;
       outline: 1px solid rgba(218 165 32 / 0.6);
     }
+  }
+
+  :global(.pill) {
+    background: var(--theme-surface-2);
+    border-radius: var(--theme-button-border-radius);
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 8px;
+    padding: 2px 8px;
   }
 </style>
