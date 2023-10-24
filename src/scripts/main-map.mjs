@@ -15,11 +15,6 @@ const getDataset = async (url) => {
   const dataset = (await response.json()).dataset;
   return dataset;
 };
-
-const datasets = await Promise.all(
-  datasetURLs.map(async (url) => await getDataset(url)),
-);
-
 export const icon = L.divIcon({
   className: "marker",
   html: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12q.825 0 1.413-.588T14 10q0-.825-.588-1.413T12 8q-.825 0-1.413.588T10 10q0 .825.588 1.413T12 12Zm0 10q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2q3.175 0 5.588 2.225T20 10.2q0 2.5-1.988 5.438T12 22Z"/></svg>',
@@ -148,6 +143,20 @@ document.getElementById("map").appendChild(fullDetails);
 
 const layers = {};
 let sites = {};
+
+const datasets = await Promise.all(
+  datasetURLs.map(async (url) => await getDataset(url)),
+);
+
+document.querySelector("#map .loading").style.transition = "opacity 0.5s ease";
+document.querySelector("#map .loading").style.opacity = 0;
+window.requestAnimationFrame(() =>
+  setTimeout(() => {
+    document.querySelector("#map .loading").style.display = "none";
+  }, 500),
+);
+
+document.querySelector(".auto-search-wrapper").style.display = "block";
 
 datasets.forEach((dataset, i) => {
   const markers = L.markerClusterGroup({

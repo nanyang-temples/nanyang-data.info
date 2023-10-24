@@ -13,12 +13,15 @@ import "@styles/map-styles.css";
     <input type="text" autocomplete="off" id="search" placeholder="search..." />
   </div>
 
-  <section id="map"></section>
+  <section id="map">
+    <span class="loading">Loading site data...</span>
+  </section>
   <script src="@scripts/main-map.mjs"></script>
 </Layout>
 
 <style>
   .auto-search-wrapper {
+    display: none;
     left: calc(34px + 20px);
     position: absolute;
     top: 10px;
