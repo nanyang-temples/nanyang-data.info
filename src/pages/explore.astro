@@ -46,6 +46,15 @@ import "@styles/map-styles.css";
 
     :global(li) {
       outline: 1px solid rgba(0 0 0 / 0.05);
+
+      :global(span) {
+        background: var(--theme-surface-2);
+        border-radius: var(--theme-button-border-radius);
+        float: right;
+        font-size: 12px;
+        margin-top: 4px;
+        padding: 2px 8px;
+      }
     }
 
     :global(.auto-selected) {

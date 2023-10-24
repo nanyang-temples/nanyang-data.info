@@ -204,6 +204,7 @@ const markupSearchResult = (siteName, query) => {
 
 const formatSearchResult = (site, query) => {
   return `<li>${[
+    `<span>${site.datasetName}</span>`,
     markupSearchResult(site.siteNameZh, query),
     markupSearchResult(site.siteNameEn, query),
     markupSearchResult(site.siteNameAlt1, query),
