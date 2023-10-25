@@ -32,7 +32,13 @@ import { datasets } from "@datasets";
 
       <div class="hero-section__image">
         <picture>
-          <img src={heroImage} alt="Nanyang Sites GIS Data" loading="lazy" />
+          <img
+            src={heroImage}
+            height="400"
+            width="400"
+            alt="Nanyang Sites GIS Data"
+            loading="lazy"
+          />
         </picture>
       </div>
     </section>
@@ -104,6 +110,10 @@ import { datasets } from "@datasets";
   @media (max-width: 768px) {
     section {
       grid-template-columns: 1fr;
+    }
+
+    .hero-section__image {
+      justify-content: center;
     }
   }
 </style>
