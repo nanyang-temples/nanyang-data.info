@@ -23,6 +23,12 @@ h3 {
   padding-left: 2rem;
   text-indent: -2rem;
   text-wrap: balance;
+
+  @media (max-width: 720px) {
+    text-indent: 0;
+    padding-left: 0;
+    text-align: center;
+  }
 }
 
 h1 {
