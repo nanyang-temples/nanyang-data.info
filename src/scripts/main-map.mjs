@@ -149,16 +149,34 @@ const datasets = await Promise.all(
   datasetURLs.map(async (url) => await getDataset(url)),
 );
 
-document.querySelector("#map .loading").style.transition = "opacity 0.5s ease";
-document.querySelector("#map .loading").style.opacity = 0;
+/* Dataset are loaded, hide loading indicator and show search UI */
+
+const totalSitesCt = datasets.reduce(
+  (total, dataset) => total + Object.keys(dataset.records).length,
+  0,
+);
+
+document.querySelector(
+  "#map .loading",
+).innerHTML = `${totalSitesCt.toLocaleString()} sites loaded!<span>✅</span>`;
+
+/* Fade-out and remove loading indicator */
 window.requestAnimationFrame(() =>
   setTimeout(() => {
-    document.querySelector("#map .loading").style.display = "none";
-  }, 500),
+    document.querySelector("#map .loading").style.transition =
+      "opacity 2s ease";
+    document.querySelector("#map .loading").style.opacity = 0;
+    window.requestAnimationFrame(() =>
+      setTimeout(() => {
+        document.querySelector("#map .loading").remove();
+      }, 2000),
+    );
+  }, 1000),
 );
 
 document.querySelector(".auto-search-wrapper").style.display = "block";
 
+/* Create layer groups and plot markers */
 datasets.forEach((dataset, i) => {
   const markers = L.markerClusterGroup({
     showCoverageOnHover: false,

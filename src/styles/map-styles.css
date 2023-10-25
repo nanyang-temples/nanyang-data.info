@@ -14,11 +14,22 @@
     border: 1px solid currentColor;
     font-size: 1.4rem;
     left: 50%;
+    line-height: 1.1;
     padding: 0.5rem 1rem;
     position: absolute;
+    text-align: center;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 700;
+
+    span {
+      display: block;
+      margin: 1rem;
+    }
+
+    .spin {
+      animation: spin 1s ease infinite forwards;
+    }
   }
 
   svg {
@@ -131,5 +142,11 @@
         transform: translateX(0);
       }
     }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
   }
 }
