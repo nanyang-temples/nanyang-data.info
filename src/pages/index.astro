@@ -67,6 +67,7 @@ import { datasets } from "@datasets";
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 400px;
+    margin-bottom: 2rem;
   }
 
   .hero-btns__container {
@@ -97,6 +98,15 @@ import { datasets } from "@datasets";
     vertical-align: top;
     color: var(--theme-primary);
     filter: brightness(0.5);
+  }
+
+  li {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+
+  li + li {
+    margin-top: 2rem;
   }
 
   @media (max-width: 768px) {
