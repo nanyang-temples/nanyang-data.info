@@ -1,6 +1,8 @@
 ---
 import { Icon } from "astro-icon";
 
+import { md2html } from "@lib/markdown-parsing.js";
+
 import Layout from "@layouts/Page.astro";
 import Button from "@components/ui/Button.astro";
 import Container from "@components/ui/Container.astro";
@@ -41,9 +43,11 @@ import { datasets } from "@datasets";
           Object.entries(datasets).map(([id, dataset]) => {
             return (
               <li>
-                <a href={`datasets/${id}`}>{dataset.projectName}</a>
+                <a href={`datasets/${id}`} class="title">
+                  {dataset.projectName}
+                </a>
                 <br />
-                {dataset.description}
+                <span set:html={md2html(dataset.description)} />
               </li>
             );
           })
@@ -86,8 +90,11 @@ import { datasets } from "@datasets";
   }
 
   li {
-    overflow-x: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+
+    a.title {
+      font-weight: 600;
+    }
   }
 
   li + li {
