@@ -15,11 +15,6 @@ const getDataset = async (url) => {
   const dataset = (await response.json()).dataset;
   return dataset;
 };
-
-const datasets = await Promise.all(
-  datasetURLs.map(async (url) => await getDataset(url)),
-);
-
 export const icon = L.divIcon({
   className: "marker",
   html: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12q.825 0 1.413-.588T14 10q0-.825-.588-1.413T12 8q-.825 0-1.413.588T10 10q0 .825.588 1.413T12 12Zm0 10q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2q3.175 0 5.588 2.225T20 10.2q0 2.5-1.988 5.438T12 22Z"/></svg>',
@@ -56,11 +51,11 @@ const buildPopUp = (marker, locations) =>
     .map(
       (site) =>
         `<section>${[
-          site.nanyangSiteId,
+          `<span class="pill">${marker.datasetName}</span>`,
           site["siteNameZh"] || null,
           site["siteNameEn"] || null,
           site["siteNameAlt1"] || null,
-          `<button data-site-id="${site.nanyangSiteId}">details</button>`,
+          `<button data-site-id="${site.nanyangSiteId}">show details</button>`,
         ]
           .filter(Boolean)
           .join("<br>")}</section>`,
@@ -124,6 +119,7 @@ const buildFullDetailsEl = () => {
     .addEventListener("click", () => fullDetails.classList.remove("show"));
 
   fullDetails.addEventListener("wheel", (event) => event.stopPropagation());
+  L.DomEvent.disableClickPropagation(fullDetails);
 
   return fullDetails;
 };
@@ -149,6 +145,38 @@ document.getElementById("map").appendChild(fullDetails);
 const layers = {};
 let sites = {};
 
+const datasets = await Promise.all(
+  datasetURLs.map(async (url) => await getDataset(url)),
+);
+
+/* Dataset are loaded, hide loading indicator and show search UI */
+
+const totalSitesCt = datasets.reduce(
+  (total, dataset) => total + Object.keys(dataset.records).length,
+  0,
+);
+
+document.querySelector(
+  "#map .loading",
+).innerHTML = `${totalSitesCt.toLocaleString()} sites loaded!<span>✅</span>`;
+
+/* Fade-out and remove loading indicator */
+window.requestAnimationFrame(() =>
+  setTimeout(() => {
+    document.querySelector("#map .loading").style.transition =
+      "opacity 2s ease";
+    document.querySelector("#map .loading").style.opacity = 0;
+    window.requestAnimationFrame(() =>
+      setTimeout(() => {
+        document.querySelector("#map .loading").remove();
+      }, 2000),
+    );
+  }, 1000),
+);
+
+document.querySelector(".auto-search-wrapper").style.display = "block";
+
+/* Create layer groups and plot markers */
 datasets.forEach((dataset, i) => {
   const markers = L.markerClusterGroup({
     showCoverageOnHover: false,
@@ -158,6 +186,7 @@ datasets.forEach((dataset, i) => {
 
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
     const marker = L.marker(latLong.split(","), { icon: icon });
+    marker.datasetName = dataset.projectName;
     marker.bindPopup().on("click", () => popupClick(marker, locations));
     marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
     markers.addLayer(marker);
@@ -204,6 +233,7 @@ const markupSearchResult = (siteName, query) => {
 
 const formatSearchResult = (site, query) => {
   return `<li>${[
+    `<span class="pill">${site.datasetName}</span>`,
     markupSearchResult(site.siteNameZh, query),
     markupSearchResult(site.siteNameEn, query),
     markupSearchResult(site.siteNameAlt1, query),
@@ -212,8 +242,8 @@ const formatSearchResult = (site, query) => {
     .join("<br>")}</li>`;
 };
 
-new Autocomplete("search", {
-  cache: true,
+const searchInput = new Autocomplete("search", {
+  cache: false,
   selectFirst: true,
 
   onSearch: ({ currentValue }) => {
@@ -231,7 +261,9 @@ new Autocomplete("search", {
       : matches.map((site) => formatSearchResult(site, currentValue)).join("");
   },
 
-  onSubmit: ({ object }) => {
+  onSubmit: ({ element, object }) => {
+    searchInput.destroy();
+    element.blur();
     map.once("zoomend", () =>
       setTimeout(() => {
         object.marker.openPopup();
@@ -239,6 +271,17 @@ new Autocomplete("search", {
       }, 1),
     );
     map.flyTo(Object.values(object.marker._latlng), 12);
+  },
+
+  onOpened: ({ results }) => {
+    document.querySelector(".auto-search-wrapper").style.zIndex = "1003";
+    const resultsTop = results.parentElement.getBoundingClientRect().top;
+    const footerHeight = document.body.querySelector("footer").offsetHeight;
+    results.parentElement.style.maxHeight = `calc(100dvh - ${resultsTop}px - ${footerHeight}px - 10px)`;
+  },
+
+  onClose: () => {
+    document.querySelector(".auto-search-wrapper").style.zIndex = "999";
   },
 
   noResults: ({ currentValue, template }) =>

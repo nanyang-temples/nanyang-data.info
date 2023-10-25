@@ -13,22 +13,27 @@ import "@styles/map-styles.css";
     <input type="text" autocomplete="off" id="search" placeholder="search..." />
   </div>
 
-  <section id="map"></section>
+  <section id="map">
+    <span class="loading">Loading site data...<span class="spin">⌛</span></span
+    >
+  </section>
   <script src="@scripts/main-map.mjs"></script>
 </Layout>
 
 <style>
   .auto-search-wrapper {
+    display: none;
     left: calc(34px + 20px);
     position: absolute;
     top: 10px;
     width: min(250px, calc(100vw - 34px - 20px - 48px - 20px));
-    z-index: 1001;
+    z-index: 999;
 
     input {
       background-clip: padding-box;
       border: 2px solid rgba(0, 0, 0, 0.2);
       border-radius: 5px;
+      padding: 10px 45px 10px 35px;
     }
 
     :global(.auto-results-wrapper.auto-is-active) {
@@ -36,7 +41,7 @@ import "@styles/map-styles.css";
       border-radius: 5px;
       border: 2px solid rgba(0, 0, 0, 0.2);
       font-size: 18px;
-      max-height: calc(100vh - 5vh - 20px - var(--header-height, 140px));
+      max-height: calc(100dvh - 200px - 5dvh - 10px);
       max-width: calc(100vw - 34px - 20px - 10px);
       overflow-y: auto;
       transform: translateY(2px);
@@ -45,6 +50,10 @@ import "@styles/map-styles.css";
 
     :global(li) {
       outline: 1px solid rgba(0 0 0 / 0.05);
+
+      :global(span) {
+        float: right;
+      }
     }
 
     :global(.auto-selected) {
@@ -57,5 +66,14 @@ import "@styles/map-styles.css";
       font-weight: bold;
       outline: 1px solid rgba(218 165 32 / 0.6);
     }
+  }
+
+  :global(.pill) {
+    background: var(--theme-surface-2);
+    border-radius: var(--theme-button-border-radius);
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 8px;
+    padding: 2px 8px;
   }
 </style>

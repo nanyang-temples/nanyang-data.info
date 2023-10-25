@@ -3,6 +3,11 @@
 @import url("./theme.css");
 @import url("./typography.css");
 
+::selection {
+  background: var(--theme-primary-hover);
+  color: var(--theme-on-primary);
+}
+
 body {
   accent-color: var(--theme-primary);
 }
