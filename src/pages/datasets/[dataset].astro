@@ -74,6 +74,11 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
     font-weight: bold;
   }
 
+  dd {
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+  }
+
   dd a {
     display: flex;
     gap: 0.5rem;
@@ -86,5 +91,19 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
 
   [astro-icon] {
     height: 1rem;
+  }
+
+  @media (max-width: 720px) {
+    dl {
+      grid-template-columns: 1fr;
+    }
+
+    dd + dt {
+      margin-top: 0.5rem;
+    }
+
+    dd {
+      padding-left: 0.5rem;
+    }
   }
 </style>
