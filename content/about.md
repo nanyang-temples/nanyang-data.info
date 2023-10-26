@@ -9,4 +9,4 @@ Team:
 
 ### Tech Colophon
 
-This site is built as a static site from data repositories maintained on GitHub.  Subprojects maintain their own repositories of data in a standardized form with a minimal commensurability requirement, and this site incorporates those data in a way that facilitates dataset discovery.
+This site is built as a static site from data repositories maintained on GitHub (<https://github.com/nanyang-temples>).  Subprojects maintain their own repositories of data in a standardized form with a minimal commensurability requirement, and this site incorporates those data in a way that facilitates dataset discovery.
