@@ -2,6 +2,10 @@
 
 This project/site exists to make available GIS data about religious sites in Southeast Asia.
 
+Team:
+* [Simon Wiles](https://github.com/simonwiles)
+* [Kenneth Dean](https://en.wikipedia.org/wiki/Kenneth_Dean_(academic))
+* [Marcus Bingenheimer](https://mbingenheimer.net/publications/publications.html)
 
 ### Tech Colophon
 
