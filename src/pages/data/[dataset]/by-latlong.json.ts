@@ -15,7 +15,11 @@ const mapLocationsByLatLong = (d) =>
       ...result,
       [`${site.latitude},${site.longitude}`]: [
         ...(result[`${site.latitude},${site.longitude}`] || []),
-        site,
+        (() => {
+          // iife to drop the latitude and longitude entries
+          const { latitude, longitude, ...rest } = site;
+          return rest;
+        })(),
       ],
     }),
     {},
