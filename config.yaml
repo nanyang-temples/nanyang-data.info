@@ -10,3 +10,4 @@ paths:
 datasets:
   - https://github.com/nanyang-temples/taiwan-public
   - https://github.com/nanyang-temples/thailand-public
+  - https://github.com/nanyang-temples/singapore-public

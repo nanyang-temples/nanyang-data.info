@@ -9,6 +9,7 @@ const datasetURLs = [
   "../data/01-buddhist_temples_taiwan/by-latlong.json",
   "../data/02-religious_sites_jinshan_shimen/by-latlong.json",
   "../data/01-temples_in_bangkok_mb/by-latlong.json",
+  "../data/01-SGPchineseAssociations/by-latlong.json",
 ];
 
 const getDataset = async (url) => {
