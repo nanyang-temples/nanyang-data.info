@@ -11,6 +11,7 @@ const datasetURLs = [
   "../data/01-temples_in_bangkok_mb/by-latlong.json",
   "../data/01-SGPchineseAssociations/by-latlong.json",
   "../data/02-SGPtemples/by-latlong.json",
+  "../data/01-temples_in_bintan_mb/by-latlong.json",
 ];
 
 const getDataset = async (url) => {
