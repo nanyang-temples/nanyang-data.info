@@ -11,18 +11,20 @@
     "gh-deploy": "CNAME=nanyang-data.info bin/gh-deploy.sh"
   },
   "dependencies": {
-    "@fontsource/krub": "^5.0.8",
+    "@fontsource/krub": "^5.0.13",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3"
   },
   "devDependencies": {
-    "@astrojs/mdx": "^1.1.2",
-    "@astrojs/sitemap": "^3.0.2",
+    "@astrojs/mdx": "^2.3.1",
+    "@astrojs/sitemap": "^3.1.4",
+    "@iconify-json/ic": "^1.1.17",
+    "@iconify-json/mdi": "^1.1.66",
     "@rollup/plugin-yaml": "^4.1.2",
-    "@types/js-yaml": "^4.0.8",
-    "astro": "^3.3.3",
-    "astro-icon": "^0.8.1",
+    "@types/js-yaml": "^4.0.9",
+    "astro": "^4.7.1",
+    "astro-icon": "^1.1.0",
     "neat-csv": "^7.0.0",
-    "postcss-preset-env": "^9.2.0"
+    "postcss-preset-env": "^9.5.11"
   }
 }
