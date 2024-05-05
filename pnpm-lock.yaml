@@ -8,15 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/coda':
+        specifier: ^5.0.13
+        version: 5.0.13
       '@fontsource/krub':
         specifier: ^5.0.13
         version: 5.0.13
-      '@iconify-json/ic':
-        specifier: ^1.1.17
-        version: 1.1.17
-      '@iconify-json/mdi':
-        specifier: ^1.1.66
-        version: 1.1.66
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -30,6 +27,12 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.1.4
         version: 3.1.4
+      '@iconify-json/ic':
+        specifier: ^1.1.17
+        version: 1.1.17
+      '@iconify-json/mdi':
+        specifier: ^1.1.66
+        version: 1.1.66
       '@rollup/plugin-yaml':
         specifier: ^4.1.2
         version: 4.1.2(rollup@4.17.2)
@@ -568,6 +571,9 @@ packages:
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/coda@5.0.13':
+    resolution: {integrity: sha512-bjLkvNtripvH/KoS32yXDeXFZi0q+eal4bz073caNErZML4qIdyaQX7awRTj6dNLMvEHrB6aeJ380FaaUIiuiA==}
 
   '@fontsource/krub@5.0.13':
     resolution: {integrity: sha512-TdZdAEog0z1BvYLBdxg67Ued/sKVtlWzf4OKpKqGGhsLo8ithZ84lXAPQ7KQ4mDFU4fTiununwW2b1kRDaualA==}
@@ -3134,6 +3140,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.20.2':
     optional: true
+
+  '@fontsource/coda@5.0.13': {}
 
   '@fontsource/krub@5.0.13': {}
 

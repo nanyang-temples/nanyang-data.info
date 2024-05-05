@@ -11,6 +11,7 @@
     "gh-deploy": "CNAME=nanyang-data.info bin/gh-deploy.sh"
   },
   "dependencies": {
+    "@fontsource/coda": "^5.0.13",
     "@fontsource/krub": "^5.0.13",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3"

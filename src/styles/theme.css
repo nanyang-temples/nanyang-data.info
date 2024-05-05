@@ -1,7 +1,7 @@
 :root {
   /* Theme Colors */
-  --theme-primary: darkgoldenrod;
-  --theme-primary-hover: goldenrod;
+  --theme-primary: rgb(32, 135, 30);
+  --theme-primary-hover: rgb(61, 174, 59);
   --theme-on-primary: hsl(0, 0%, 100%);
 
   --theme-bg: #eeeff1;
@@ -14,13 +14,13 @@
   --theme-on-surface-2: #272f27;
 
   /* Theme Shapes */
-  --theme-shape-radius: 0.5rem;
-  --theme-button-border-radius: 0.5rem;
+  --theme-shape-radius: 0.15rem;
+  --theme-button-border-radius: 0.15rem;
 
   /* Theme Transition */
   --theme-transition: 0.2s ease-in-out;
 
   /* Fonts */
-  --theme-font-family-heading: "Krub", Verdana, Geneva, sans-serif;
+  --theme-font-family-heading: "Coda", Verdana, Geneva, sans-serif;
   --theme-font-family-body: "Krub", Verdana, Geneva, sans-serif;
 }
