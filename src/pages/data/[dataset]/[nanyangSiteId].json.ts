@@ -8,14 +8,16 @@ import type { APIRoute } from "astro";
 import { datasets } from "@datasets";
 
 export function getStaticPaths() {
-  return Object.entries(datasets).reduce((result, [key, dataset]) => {
-    dataset.records.forEach((record) => {
-      result.push({
-        params: { dataset: key, nanyangSiteId: record.nanyangSiteId },
+  return Object.entries(datasets)
+    .filter(([, dataset]) => dataset.hasExtendedMetadata)
+    .reduce((result, [key, dataset]) => {
+      dataset.records.forEach((record) => {
+        result.push({
+          params: { dataset: key, nanyangSiteId: record.nanyangSiteId },
+        });
       });
-    });
-    return result;
-  }, []);
+      return result;
+    }, []);
 }
 
 const getExtendedMetadata = (repositoryPath, datasetId) => {
