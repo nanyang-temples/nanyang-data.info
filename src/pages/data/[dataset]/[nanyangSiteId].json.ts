@@ -20,7 +20,7 @@ export function getStaticPaths() {
     }, []);
 }
 
-const getExtendedMetadata = (repositoryPath, datasetId) => {
+const getExtendedMetadata = (repositoryPath: string, datasetId: string) => {
   const yamlFileContents = fs.readFileSync(
     path.join(repositoryPath, `${datasetId}.yaml`),
     "utf8",

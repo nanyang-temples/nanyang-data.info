@@ -59,7 +59,9 @@ const buildPopUp = (marker, locations) =>
           site["siteNameZh"] || null,
           site["siteNameEn"] || null,
           site["siteNameAlt1"] || null,
-          `<button data-site-id="${site.nanyangSiteId}">show details</button>`,
+          site.hasExtendedMetadata
+            ? `<button data-site-id="${site.nanyangSiteId}">show details</button>`
+            : null,
         ]
           .filter(Boolean)
           .join("<br>")}</section>`,
@@ -191,7 +193,15 @@ datasets.forEach((dataset, i) => {
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
     const marker = L.marker(latLong.split(","), { icon: icon });
     marker.datasetName = dataset.projectName;
-    marker.bindPopup().on("click", () => popupClick(marker, locations));
+    marker.bindPopup().on("click", () =>
+      popupClick(
+        marker,
+        locations.map((location) => ({
+          ...location,
+          ...{ hasExtendedMetadata: dataset.hasExtendedMetadata },
+        })),
+      ),
+    );
     marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
     markers.addLayer(marker);
     // TODO: this is ugly
@@ -205,6 +215,7 @@ datasets.forEach((dataset, i) => {
             ...{
               datasetId: dataset.id,
               datasetName: dataset.projectName,
+              hasExtendedMetadata: dataset.hasExtendedMetadata,
               marker,
             },
           },

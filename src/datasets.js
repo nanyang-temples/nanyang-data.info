@@ -41,6 +41,9 @@ for (let repositoryUrl of repositories) {
 
     const records = await neatCsv(csvFileContents, "utf-8");
     const metadata = yaml.load(yamlFileContents);
+    const hasExtendedMetadata = fs.existsSync(
+      path.join(repositoryPath, `${id}.yaml`),
+    );
 
     datasets[id] = {
       id,
@@ -49,6 +52,7 @@ for (let repositoryUrl of repositories) {
       repositoryUrl,
       repositoryName,
       repositoryRev,
+      hasExtendedMetadata,
       ...metadata,
     };
   }
