@@ -205,24 +205,17 @@ datasets.forEach((dataset, i) => {
     );
     marker.getPopup().on("remove", () => fullDetails.classList.remove("show"));
     markers.addLayer(marker);
-    // TODO: this is ugly
-    sites = {
-      ...sites,
-      ...Object.fromEntries(
-        locations.map((location) => [
-          location.nanyangSiteId,
-          {
-            ...location,
-            ...{
-              datasetId: dataset.id,
-              datasetName: dataset.projectName,
-              hasExtendedMetadata: dataset.hasExtendedMetadata,
-              marker,
-            },
-          },
-        ]),
-      ),
-    };
+    locations.forEach((location) => {
+      sites[location.nanyangSiteId] = {
+        ...location,
+        ...{
+          datasetId: dataset.id,
+          datasetName: dataset.projectName,
+          hasExtendedMetadata: dataset.hasExtendedMetadata,
+          marker,
+        },
+      };
+    });
   });
   map.addLayer(markers);
   layers[dataset.projectName] = markers;
