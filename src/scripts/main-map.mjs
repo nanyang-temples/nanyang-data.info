@@ -20,13 +20,14 @@ const getDataset = async (url) => {
   return dataset;
 };
 
-export const icon = L.divIcon({
-  className: "marker",
-  html: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12q.825 0 1.413-.588T14 10q0-.825-.588-1.413T12 8q-.825 0-1.413.588T10 10q0 .825.588 1.413T12 12Zm0 10q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2q3.175 0 5.588 2.225T20 10.2q0 2.5-1.988 5.438T12 22Z"/></svg>',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -45],
-});
+export const getIcon = (fill) =>
+  L.divIcon({
+    className: "marker",
+    html: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="${fill}" d="M12 12q.825 0 1.413-.588T14 10q0-.825-.588-1.413T12 8q-.825 0-1.413.588T10 10q0 .825.588 1.413T12 12Zm0 10q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2q3.175 0 5.588 2.225T20 10.2q0 2.5-1.988 5.438T12 22Z"/></svg>`,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -45],
+  });
 
 const streetLayer = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
@@ -43,6 +44,25 @@ const satelliteLayer = L.tileLayer(
       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
   },
 );
+
+const colors = [
+  "cadetblue",
+  "chocolate",
+  "rebeccapurple",
+  "green",
+  "crimson",
+  "darkgoldenrod",
+  "hotpink",
+];
+
+const style = document.createElement("style");
+colors.forEach(
+  (color, i) =>
+    (style.textContent += `.leaflet-control-layers-overlays label:nth-of-type(${
+      i + 1
+    }) {accent-color: ${color};}\n`),
+);
+document.body.appendChild(style);
 
 const map = L.map("map", { minZoom: 4, maxZoom: 18 });
 streetLayer.addTo(map);
@@ -192,7 +212,7 @@ datasets.forEach((dataset, i) => {
   });
 
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
-    const marker = L.marker(latLong.split(","), { icon: icon });
+    const marker = L.marker(latLong.split(","), { icon: getIcon(colors[i]) });
     marker.datasetName = dataset.projectName;
     marker.bindPopup().on("click", () =>
       popupClick(
