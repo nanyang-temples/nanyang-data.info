@@ -60,7 +60,7 @@ colors.forEach(
   (color, i) =>
     (style.textContent += `.leaflet-control-layers-overlays label:nth-of-type(${
       i + 1
-    }) {accent-color: ${color};}\n`),
+    }) {accent-color: ${color};}\n.pill-${i} {background-color: ${color};}\n`),
 );
 document.body.appendChild(style);
 
@@ -76,7 +76,7 @@ const buildPopUp = (marker, locations) =>
     .map(
       (site) =>
         `<section>${[
-          `<span class="pill">${marker.datasetName}</span>`,
+          `<span class="pill pill-${site.datasetIdx}">${marker.datasetName}</span>`,
           site["siteNameZh"] || null,
           site["siteNameEn"] || null,
           site["siteNameAlt1"] || null,
@@ -219,7 +219,10 @@ datasets.forEach((dataset, i) => {
         marker,
         locations.map((location) => ({
           ...location,
-          ...{ hasExtendedMetadata: dataset.hasExtendedMetadata },
+          ...{
+            hasExtendedMetadata: dataset.hasExtendedMetadata,
+            datasetIdx: i,
+          },
         })),
       ),
     );
@@ -230,6 +233,7 @@ datasets.forEach((dataset, i) => {
         ...location,
         ...{
           datasetId: dataset.id,
+          datasetIdx: i,
           datasetName: dataset.projectName,
           hasExtendedMetadata: dataset.hasExtendedMetadata,
           marker,
@@ -261,7 +265,7 @@ const markupSearchResult = (siteName, query) => {
 
 const formatSearchResult = (site, query) => {
   return `<li>${[
-    `<span class="pill">${site.datasetName}</span>`,
+    `<span class="pill pill-${site.datasetIdx}">${site.datasetName}</span>`,
     markupSearchResult(site.siteNameZh, query),
     markupSearchResult(site.siteNameEn, query),
     markupSearchResult(site.siteNameAlt1, query),
