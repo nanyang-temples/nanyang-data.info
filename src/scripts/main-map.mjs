@@ -222,10 +222,9 @@ datasets.forEach((dataset, i) => {
 });
 
 const layerControl = L.control
-  .layers(
-    { "Street Map": streetLayer, Satellite: satelliteLayer },
-    layers /*, { collapsed: false } */,
-  )
+  .layers({ "Street Map": streetLayer, Satellite: satelliteLayer }, layers, {
+    collapsed: false,
+  })
   .addTo(map);
 
 const mapEl = document.getElementById("map");
