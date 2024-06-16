@@ -27,5 +27,6 @@
     "astro-icon": "^1.1.0",
     "neat-csv": "^7.0.0",
     "postcss-preset-env": "^9.5.11"
-  }
+  },
+  "packageManager": "pnpm@9.0.6+sha256.0624e30eff866cdeb363b15061bdb7fd9425b17bc1bb42c22f5f4efdea21f6b3"
 }
