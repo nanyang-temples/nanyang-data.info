@@ -70,7 +70,7 @@ streetLayer.addTo(map);
 
 // set view to show the relevant (?) part of Southeast Asia
 // TODO: go back to setting this automatically?
-map.setView([13, 110], 5);
+map.setView([8, 110], 5);
 
 const buildPopUp = (marker, locations) =>
   locations
