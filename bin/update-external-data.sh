@@ -22,6 +22,7 @@ for repository in $repositories; do
     log "Updating $repo_name...";
     cd "$repo_name";
     git pull;
+    cd ..;
   else
     log "Cloning $repository...";
     git clone $repository;
