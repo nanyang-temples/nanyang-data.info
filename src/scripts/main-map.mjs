@@ -55,6 +55,7 @@ const colors = [
   "crimson",
   "darkgoldenrod",
   "hotpink",
+  "dodgerblue",
 ];
 
 const style = document.createElement("style");
