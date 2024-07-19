@@ -1,6 +1,6 @@
 ## About the Nanyang Sites GIS Data Project/Site
 
-This project/site exists to make available GIS data about religious sites in Southeast Asia.
+This project/site exists to make GIS data about religious sites in Southeast Asia freely available.
 
 Team:
 * [Simon Wiles](https://github.com/simonwiles)
