@@ -6,12 +6,12 @@ const Tag = href ? "a" : "button";
 ---
 
 <Tag
-  class={`btn ${unelevated && `btn--unelevated`} ${
-    outlined && `btn--outlined`
-  } ${onPrimary && `btn--on-primary`}`}
+  class={`btn ${(unelevated && `btn--unelevated`) || ""} ${
+    (outlined && `btn--outlined`) || ""
+  } ${(onPrimary && `btn--on-primary`) || ""}`.trim()}
   href={href}
-  target={`${newTab ? "_blank" : ``}`}
-  rel={`${newTab ? "noopener noreferrer" : ``}`}
+  target={newTab ? "_blank" : null}
+  rel={newTab ? "noopener noreferrer" : null}
 >
   <slot />
   {
