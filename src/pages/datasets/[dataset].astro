@@ -6,6 +6,12 @@ import Layout from "@layouts/Page.astro";
 import Container from "@components/ui/Container.astro";
 import Panel from "@components/ui/Panel.astro";
 
+import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import "@vendor/autocomplete.min.css";
+import "@styles/map-styles.css";
+
 import { datasets } from "@datasets";
 
 export function getStaticPaths() {
@@ -61,8 +67,22 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
         </dd>
       </dl>
     </Panel>
+
+    <div class="map-container">
+      <div class="auto-search-wrapper loupe">
+        <input
+          type="text"
+          autocomplete="off"
+          id="search"
+          placeholder="search..."
+        />
+      </div>
+      <section id="map" data-dataset-id={id}></section>
+    </div>
   </Container>
 </Layout>
+
+<script src="@scripts/dataset-map.mjs"></script>
 
 <style>
   dl {
@@ -83,6 +103,7 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    width: fit-content;
   }
 
   .description {
@@ -91,6 +112,16 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
 
   [astro-icon] {
     height: 1rem;
+  }
+
+  .map-container {
+    position: relative;
+  }
+
+  #map {
+    border-radius: var(--theme-shape-radius);
+    height: min(700px, 90vh);
+    overflow: hidden;
   }
 
   @media (max-width: 720px) {
