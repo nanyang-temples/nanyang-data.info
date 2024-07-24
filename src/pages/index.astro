@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import "@shoelace-style/shoelace/dist/themes/light.css";
 
 import { md2html } from "@lib/markdown-parsing.js";
 
@@ -77,13 +78,8 @@ const columns = [
   </Container>
 </Layout>
 
-<script
-  src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/components/details/details.js"
-></script>
-
+<script src="@scripts/shoelace.mjs"></script>
 <style>
-  @import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/themes/light.css";
-
   .hero {
     align-items: center;
     display: grid;
