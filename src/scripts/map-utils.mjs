@@ -139,6 +139,7 @@ export const processDataset = (dataset, i, iconColor) => {
   });
 
   Object.entries(dataset.records).forEach(([latLong, locations]) => {
+    if (latLong == ",") return;
     const marker = L.marker(latLong.split(","), { icon: getIcon(iconColor) });
     marker.datasetName = dataset.projectName;
     marker.bindPopup().on("click", () =>
