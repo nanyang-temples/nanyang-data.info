@@ -158,6 +158,10 @@
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 10px 45px 10px 35px;
+
+    &:focus {
+      border: 2px solid rgba(0, 0, 0, 0.2);
+    }
   }
 
   .auto-results-wrapper.auto-is-active {
@@ -165,7 +169,6 @@
     border-radius: 5px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     font-size: 18px;
-    max-height: calc(100dvh - 200px - 5dvh - 10px);
     max-width: calc(100vw - 34px - 20px - 10px);
     overflow-y: auto;
     transform: translateY(2px);

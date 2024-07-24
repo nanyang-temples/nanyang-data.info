@@ -53,9 +53,12 @@ export const initSearch = (sites, map, popupClick) => {
 
     onOpened: ({ results }) => {
       document.querySelector(".auto-search-wrapper").style.zIndex = "1003";
-      const resultsTop = results.parentElement.getBoundingClientRect().top;
-      const footerHeight = document.body.querySelector("footer").offsetHeight;
-      results.parentElement.style.maxHeight = `calc(100dvh - ${resultsTop}px - ${footerHeight}px - 10px)`;
+      const resultsTop = results.parentElement.offsetTop;
+      const mapHeight =
+        document.body.querySelector(".leaflet-container").offsetHeight;
+      results.parentElement.style.maxHeight = `${
+        mapHeight - resultsTop - 20
+      }px`;
     },
 
     onClose: () => {
