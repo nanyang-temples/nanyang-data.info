@@ -10,4 +10,8 @@
 
 body {
   accent-color: var(--theme-primary);
+
+  &:has(:not(:defined)) {
+    visibility: hidden;
+  }
 }
