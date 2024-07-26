@@ -10,7 +10,7 @@ import { initSearch } from "./map-search.mjs";
 
 const mapEl = document.getElementById("map");
 const datasetId = mapEl.dataset.datasetId;
-const datasetURLs = [`../data/${datasetId}/by-latlong.json`];
+const datasetURLs = [`/data/${datasetId}/by-latlong.json`];
 
 /* Create the map */
 const map = L.map("map", {
