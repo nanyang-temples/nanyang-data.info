@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import "@shoelace-style/shoelace/dist/themes/light.css";
 
 import { md2html } from "@lib/markdown-parsing.js";
 
@@ -11,6 +12,12 @@ import heroImage from "@img/nanyang-sites.400x400.webp?url";
 import * as content from "@content/home-page.md";
 
 import { datasets } from "@datasets";
+
+const datasetsCt = Object.keys(datasets).length;
+const columns = [
+  Object.entries(datasets).slice(0, datasetsCt / 2),
+  Object.entries(datasets).slice(datasetsCt / 2),
+];
 ---
 
 <Layout>
@@ -44,25 +51,34 @@ import { datasets } from "@datasets";
     </section>
     <section>
       <h3>Our Datasets:</h3>
-      <ul>
+      <div class="datasets-wrapper">
         {
-          Object.entries(datasets).map(([id, dataset]) => {
+          columns.map((column) => {
             return (
-              <li>
-                <a href={`datasets/${id}`} class="title">
-                  {dataset.projectName}
-                </a>
-                <br />
-                <span set:html={md2html(dataset.description)} />
-              </li>
+              <div>
+                {column.map(([id, dataset]) => {
+                  return (
+                    <sl-details summary={dataset.projectName}>
+                      <Fragment set:html={md2html(dataset.description)} />
+                      <Button href={`datasets/${id}`} customIcon outlined>
+                        More
+                        <Fragment slot="icon">
+                          <Icon name="ic:baseline-chevron-right" />
+                        </Fragment>
+                      </Button>
+                    </sl-details>
+                  );
+                })}
+              </div>
             );
           })
         }
-      </ul>
+      </div>
     </section>
   </Container>
 </Layout>
 
+<script src="@scripts/shoelace.mjs"></script>
 <style>
   .hero {
     align-items: center;
@@ -95,25 +111,40 @@ import { datasets } from "@datasets";
     border-radius: var(--theme-shape-radius);
   }
 
-  li {
-    overflow-wrap: break-word;
+  .datasets-wrapper {
+    display: flex;
+    gap: 2%;
+    overflow: hidden;
 
-    a.title {
-      font-weight: 600;
+    > div {
+      flex: 0 0 49%;
+      max-width: 49%;
+    }
+    sl-details[open]::part(summary) {
+      font-weight: bold;
+    }
+
+    :global(.btn) {
+      float: right;
+      margin-bottom: 1rem;
     }
   }
 
-  li + li {
-    margin-top: 2rem;
-  }
-
   @media (max-width: 768px) {
-    section {
+    .hero {
       grid-template-columns: 1fr;
     }
 
     .hero-image {
       justify-content: center;
+    }
+
+    .datasets-wrapper {
+      flex-direction: column;
+
+      > div {
+        max-width: 100%;
+      }
     }
   }
 </style>

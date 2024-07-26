@@ -13,6 +13,7 @@
   "dependencies": {
     "@fontsource/coda": "^5.0.13",
     "@fontsource/krub": "^5.0.13",
+    "@shoelace-style/shoelace": "^2.15.1",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3"
   },

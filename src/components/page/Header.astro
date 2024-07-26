@@ -10,19 +10,15 @@ const navData = [
     title: "About",
     slug: "/about/",
   },
-  {
-    title: "Contact",
-    slug: "/contact/",
-  },
 ];
 ---
 
-<script type="module">
-  const bodyElement = document.querySelector("body");
-  const menuButton = document.querySelector("#menuButton");
-  const navHeader = document.querySelector("#navHeader");
-  const menuButtonIconHam = document.querySelector("#menuButtonIconHam");
-  const menuButtonIconClose = document.querySelector("#menuButtonIconClose");
+<script>
+  const bodyElement = document.querySelector("body")!;
+  const menuButton: HTMLButtonElement = document.querySelector("#menuButton")!;
+  const navHeader = document.querySelector("#navHeader")!;
+  const menuButtonIconHam = document.querySelector("#menuButtonIconHam")!;
+  const menuButtonIconClose = document.querySelector("#menuButtonIconClose")!;
   let scrollPosition = 0;
 
   menuButton.addEventListener("click", toggleMenu);
@@ -31,7 +27,7 @@ const navData = [
     menuButtonIconHam.toggleAttribute("hidden");
     menuButtonIconClose.toggleAttribute("hidden");
 
-    if (navHeader.hasAttribute("mobile-menu-open", true)) {
+    if (navHeader.hasAttribute("mobile-menu-open")) {
       menuButton.title = "Open Main Menu";
       // unlock scroll position
       bodyElement.style.removeProperty("overflow");
@@ -42,7 +38,7 @@ const navData = [
     } else {
       menuButton.title = "Close Main Menu";
       // lock scroll position
-      scrollPosition = window.pageYOffset;
+      scrollPosition = window.scrollY;
       bodyElement.style.overflow = "hidden";
       bodyElement.style.position = "fixed";
       bodyElement.style.top = `-${scrollPosition}px`;
@@ -57,10 +53,10 @@ const navData = [
   <div class="header-logo-menu__container">
     <button id="menuButton" title="Open Main Menu">
       <span id="menuButtonIconHam">
-        <Icon name="ic:baseline-menu" width="24px" height="24px" />
+        <Icon name="ic:baseline-menu" width={24} height={24} />
       </span>
       <span id="menuButtonIconClose" hidden>
-        <Icon name="ic:baseline-close" width="24px" height="24px" />
+        <Icon name="ic:baseline-close" width={24} height={24} />
       </span>
     </button>
     <a class="header-logo__link" href="/">
