@@ -15,8 +15,8 @@ import { datasets } from "@datasets";
 
 const datasetsCt = Object.keys(datasets).length;
 const columns = [
-  Object.entries(datasets).slice(0, datasetsCt / 2),
-  Object.entries(datasets).slice(datasetsCt / 2),
+  Object.entries(datasets).slice(0, Math.ceil(datasetsCt / 2)),
+  Object.entries(datasets).slice(Math.ceil(datasetsCt / 2)),
 ];
 ---
 

@@ -125,6 +125,8 @@
     dd {
       border-bottom: 1px solid var(--theme-surface-1);
       font-weight: bold;
+      overflow: hidden;
+      word-wrap: break-word;
     }
   }
 
