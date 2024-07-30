@@ -17,6 +17,7 @@ const datasetURLs = [
   "../data/03-keramatShrines/by-latlong.json",
   "../data/01-temples_in_bintan_mb/by-latlong.json",
   "../data/02-franke_indonesia/by-latlong.json",
+  "../data/01-temples_luangPrabang_ps/by-latlong.json",
 ];
 
 /* Configure colors, write a stylesheet to apply them to the leaflet layer control
@@ -30,6 +31,7 @@ const colors = [
   "darkgoldenrod",
   "hotpink",
   "dodgerblue",
+  "lightseagreen",
 ];
 
 const style = document.createElement("style");
