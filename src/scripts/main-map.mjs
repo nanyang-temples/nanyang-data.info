@@ -50,7 +50,7 @@ const map = L.map("map", { minZoom: 4, maxZoom: 18 });
 streetLayer.addTo(map);
 
 // set view to show the relevant (?) part of Southeast Asia
-map.setView([8, 110], 5);
+map.setView([8, 120], 5);
 
 const mapEl = document.getElementById("map");
 mapEl.style.setProperty(
