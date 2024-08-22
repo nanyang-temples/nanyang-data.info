@@ -27,6 +27,7 @@ const {
   records,
   projectName,
   description,
+  credits,
   contact,
   license,
   repositoryUrl,
@@ -57,6 +58,8 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
         </dd>
         <dt>Total Records</dt>
         <dd>{records.length.toLocaleString()}</dd>
+        <dt>Credits</dt>
+        <dd set:html={md2html(credits, true)} />
         <dt>Contact</dt>
         <dd>{contact}</dd>
         <dt>Last Updated:</dt>
