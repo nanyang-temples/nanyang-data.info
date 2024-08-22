@@ -38,9 +38,16 @@ const {
 date.setUTCHours(12);
 
 const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
+
+const datasetIdx = Object.keys(datasets).indexOf(dataset);
+const nextDataset =
+  datasetIdx < Object.keys(datasets).length - 1
+    ? Object.keys(datasets)[datasetIdx + 1]
+    : Object.keys(datasets)[0];
 ---
 
 <Layout {isVersionOf}>
+  <a href=`/datasets/${nextDataset}/` class="next-dataset">⮕</a>
   <Container>
     <h1>{projectName}</h1>
     <div class="metadata">
@@ -92,6 +99,21 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
 <script src="@scripts/dataset-map.mjs"></script>
 
 <style>
+  .next-dataset {
+    position: absolute;
+    text-decoration: none;
+    top: 1rem;
+    right: clamp(
+      1rem,
+      calc(((100vw - var(--container-max-width)) / 2) + 1rem),
+      calc(((100vw - var(--container-max-width)) / 2) + 1rem)
+    );
+
+    &:hover {
+      color: var(--theme-primary);
+    }
+  }
+
   h1 {
     margin: 0;
   }
