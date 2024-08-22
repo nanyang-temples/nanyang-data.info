@@ -43,33 +43,37 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
 <Layout {isVersionOf}>
   <Container>
     <h1>{projectName}</h1>
-    <Panel
-      surfaceNumber={1}
-      className="description"
-      set:html={md2html(description)}
-    />
-    <Panel surfaceNumber={2}>
-      <dl>
-        <dt>Repository</dt>
-        <dd>
-          <a href={repositoryUrl} rel="noopener" target="_blank"
-            ><Icon name="mdi:github" /> {repositoryName}</a
-          >
-        </dd>
-        <dt>Total Records</dt>
-        <dd>{records.length.toLocaleString()}</dd>
-        <dt>Credits</dt>
-        <dd set:html={md2html(credits, true)} />
-        <dt>Contact</dt>
-        <dd>{contact}</dd>
-        <dt>Last Updated:</dt>
-        <dd>{date.toDateString()}</dd>
-        <dt>License</dt>
-        <dd>
-          <a href={license.url} rel="license" target="_blank">{license.name}</a>
-        </dd>
-      </dl>
-    </Panel>
+    <div class="metadata">
+      <Panel
+        surfaceNumber={1}
+        className="description"
+        set:html={md2html(description)}
+      />
+      <Panel surfaceNumber={2}>
+        <dl>
+          <dt>Repository</dt>
+          <dd>
+            <a href={repositoryUrl} rel="noopener" target="_blank"
+              ><Icon name="mdi:github" /> {repositoryName}</a
+            >
+          </dd>
+          <dt>Total Records</dt>
+          <dd>{records.length.toLocaleString()}</dd>
+          <dt>Credits</dt>
+          <dd set:html={md2html(credits, true)} />
+          <dt>Contact</dt>
+          <dd>{contact}</dd>
+          <dt>Last Updated:</dt>
+          <dd>{date.toDateString()}</dd>
+          <dt>License</dt>
+          <dd>
+            <a href={license.url} rel="license" target="_blank"
+              >{license.name}</a
+            >
+          </dd>
+        </dl>
+      </Panel>
+    </div>
 
     <div class="map-container">
       <div class="auto-search-wrapper loupe">
@@ -88,9 +92,22 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
 <script src="@scripts/dataset-map.mjs"></script>
 
 <style>
+  h1 {
+    margin: 0;
+  }
+
+  .metadata {
+    display: flex;
+    gap: 1rem;
+
+    :global(> :last-child) {
+      flex: 0 0 450px;
+    }
+  }
+
   dl {
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 1fr;
   }
 
   dt {
@@ -100,6 +117,11 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
   dd {
     overflow-wrap: break-word;
     overflow-x: hidden;
+    padding-left: 0.5rem;
+  }
+
+  dd + dt {
+    margin-top: 0.5rem;
   }
 
   dd a {
@@ -127,17 +149,18 @@ const isVersionOf = `${repositoryUrl}/tree/${repositoryRev}`;
     overflow: hidden;
   }
 
-  @media (max-width: 720px) {
-    dl {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 1100px) {
+    .metadata {
+      flex-direction: column;
+      margin-bottom: var(--default-section-margin);
 
-    dd + dt {
-      margin-top: 0.5rem;
-    }
+      :global(section) {
+        --default-section-margin: 0;
+      }
 
-    dd {
-      padding-left: 0.5rem;
+      :global(> :last-child) {
+        width: 100%;
+      }
     }
   }
 </style>
